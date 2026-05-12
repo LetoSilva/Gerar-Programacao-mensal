@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="estilo.css">
+    <title>CAF - Programação Inteligente</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="topbar">
+        <div class="logo">
+            <div class="logo-box">CAF</div>
+            <div>
+                <h1>Programação Mensal</h1>
+                <p>Sistema Inteligente de Escalas</p>
+            </div>
+        </div>
+        <div class="controls">
+            <select id="mes"></select>
+            <select id="ano">
+                <option>2025</option>
+                <option selected>2026</option>
+                <option>2027</option>
+                <option>2028</option>
+                <option>2029</option>
+                <option>2030</option>
+            </select>
+            <button onclick="App.alternarTema()">Tema</button>
+            <button onclick="App.exportarExcel()">Excel</button>
+            <button onclick="App.exportarPDF()">PDF</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <table id="tabelaProgramacao">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>E-mail</th>
+                    <th>Retorno</th>
+                    <th>Fieldglass</th>
+                    <th>FUP</th>
+                    <th>Service Now</th>
+                    <th>V360</th>
+                    <th>Encerramento</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyProgramacao"></tbody>
+        </table>
+    </div>
+
+    <div class="status-bar">
+        <div class="status"><h3>Dias úteis</h3><p id="diasMes">0</p></div>
+        <div class="status">
+            <h3 id="labelFeriado">Feriado</h3>
+            <p id="feriadosMes">0</p>
+        </div>
+        <div class="status"><h3>Último E-mail</h3><p id="ultimoEmail">-</p></div>
+    </div>
+</div>
+
+<script src="javascript.js"></script>
+
+</body>
+</html>

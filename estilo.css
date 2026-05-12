@@ -1,0 +1,66 @@
+:root{
+--bg:#f4f7fb; --card:#ffffff; --table:#ffffff; --text:#1e293b;
+--border:#e2e8f0; --header:#2563eb; --hover:#f1f5f9; --shadow:0 4px 14px rgba(0,0,0,0.08);
+}
+
+.dark{
+--bg:#0f172a; --card:#111827; --table:#1e293b; --text:#f8fafc;
+--border:#334155; --header:#1d4ed8; --hover:#334155; --shadow:0 4px 14px rgba(0,0,0,0.35);
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; 
+}
+body{ 
+    font-family:Arial,sans-serif; background:var(--bg); color:var(--text); padding:18px; transition:0.3s; 
+}
+.dashboard{ 
+    max-width:1800px; margin:auto; 
+}
+.topbar{ 
+    display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:16px; 
+}
+.logo{
+     display:flex; align-items:center; gap:12px; 
+    }
+.logo-box{
+     width:45px; height:45px; border-radius:12px; background:linear-gradient(135deg,#2563eb,#38bdf8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold; }
+.controls{ display:flex; gap:8px; flex-wrap:wrap; 
+}
+button, select{ 
+    border:none; padding:10px 14px; border-radius:10px; background:#2563eb; color:white; cursor:pointer; font-size:12px; font-weight:bold; 
+}
+.card{ 
+    background:var(--card); border-radius:16px; padding:12px; border:1px solid var(--border); overflow:auto; box-shadow:var(--shadow); 
+}
+table{ 
+    width:100%; border-collapse:collapse; font-size:11px; 
+}
+th{ 
+    background:var(--header); color:white; padding:9px; border:1px solid var(--border); position:sticky; top:0; z-index:2; 
+}
+td{ 
+    padding:7px; text-align:center; border:1px solid var(--border); background:var(--table); 
+}
+.feriado td{ background:#fee2e2 !important; color:#991b1b; font-weight:bold; text-transform: uppercase; 
+}
+.leila{ 
+    color:#2563eb; font-weight:bold; 
+}
+.adri{ 
+    color:#059669; font-weight:bold; 
+}
+.leto{ 
+    color:#d97706; font-weight:bold; 
+}
+.status-bar{ 
+    display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; 
+}
+.status{ 
+    flex:1; min-width:180px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px; box-shadow:var(--shadow); 
+}
+.status h3{ 
+    font-size:11px; color:#64748b; margin-bottom:5px; 
+}
+.status p{ 
+    font-size:22px; font-weight:bold; 
+}
