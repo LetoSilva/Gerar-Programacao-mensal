@@ -3,30 +3,30 @@ const Scheduler = {
         {
             email: "Leila",
             retorno: "Adri",
-            fieldglass: "Adri",
+            fieldglass: "Leto",
             fup: "Leto",
             service: "Girlene",
-            v360: "Adri",
-            spot: "Leila",
+            v360: "Leila",
+            spot: "Adri",
             encerramento: "Adri"
         },
         {
             email: "Leto",
             retorno: "Leila",
-            fieldglass: "Leila",
+            fieldglass: "Adri",
             fup: "Adri",
             service: "Girlene",
-            v360: "Leila",
-            spot: "Adri",
+            v360: "Leto",
+            spot: "Leila",
             encerramento: "Leila"
         },
         {
             email: "Adri",
             retorno: "Leto",
-            fieldglass: "Leto",
+            fieldglass: "Leila",
             fup: "Leila",
             service: "Girlene",
-            v360: "Leto",
+            v360: "Adri",
             spot: "Leto",
             encerramento: "Leto"
         }
