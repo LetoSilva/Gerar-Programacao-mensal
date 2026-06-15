@@ -1,55 +1,33 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="estilo.css">
+    <title>CAF - Programação Inteligente</title>
 
+        <!-- Favicon -->
+    <link rel="icon" href="image/fav.png">
 
-<title>CAF - Programação Inteligente</title>
-
-<link rel="icon" href="image/fav.png">
-<link rel="stylesheet" href="estilo1.css">
-
-<!-- Excel -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-<!-- PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 
 </head>
-
 <body>
 
-
 <div class="dashboard">
-
-    <!-- =========================
-         TOPO
-    ========================== -->
-
-    <header class="topbar">
-
+    <div class="topbar">
         <div class="logo">
-
-            <div class="logo-box">
-                CAF
-            </div>
-
+            <div class="logo-box">CAF</div>
             <div>
                 <h1>Programação Mensal</h1>
                 <p>Sistema Inteligente de Escalas</p>
             </div>
-
         </div>
-
         <div class="controls">
-
             <select id="mes"></select>
-
             <select id="ano">
                 <option>2025</option>
                 <option selected>2026</option>
@@ -58,31 +36,14 @@
                 <option>2029</option>
                 <option>2030</option>
             </select>
-
-            <button onclick="App.alternarTema()">
-                🌙 Tema
-            </button>
-
-            <button onclick="App.exportarExcel()">
-                📊 Excel
-            </button>
-
-            <button onclick="App.exportarPDF()">
-                📄 PDF
-            </button>
-
+            <button onclick="App.alternarTema()">Tema</button>
+            <button onclick="App.exportarExcel()">Excel</button>
+            <button onclick="App.exportarPDF()">PDF</button>
         </div>
+    </div>
 
-    </header>
-
-    <!-- =========================
-         TABELA
-    ========================== -->
-
-    <section class="card">
-
+    <div class="card">
         <table id="tabelaProgramacao">
-
             <thead>
                 <tr>
                     <th>Data</th>
@@ -96,85 +57,21 @@
                     <th>Encerramento</th>
                 </tr>
             </thead>
-
             <tbody id="tbodyProgramacao"></tbody>
-
         </table>
+    </div>
 
-    </section>
-
-    <!-- =========================
-         LEGENDA
-    ========================== -->
-
-    <section class="legenda">
-
-        <span class="tag nacional">
-            Nacional
-        </span>
-
-        <span class="tag estadual">
-            Estadual
-        </span>
-
-        <span class="tag municipal">
-            Municipal
-        </span>
-
-        <span class="tag facultativo">
-            Ponto Facultativo
-        </span>
-
-    </section>
-
-    <!-- =========================
-         STATUS
-    ========================== -->
-
-    <section class="status-bar">
-
+    <div class="status-bar">
+        <div class="status"><h3>Dias úteis</h3><p id="diasMes">0</p></div>
         <div class="status">
-            <h3>Dias Úteis</h3>
-            <p id="diasMes">0</p>
-        </div>
-
-        <div class="status">
-            <h3>Total de Eventos</h3>
+            <h3 id="labelFeriado">Feriado</h3>
             <p id="feriadosMes">0</p>
         </div>
-
-        <div class="status">
-            <h3>Feriados Nacionais</h3>
-            <p id="nacionaisMes">0</p>
-        </div>
-
-        <div class="status">
-            <h3>Feriados Estaduais</h3>
-            <p id="estaduaisMes">0</p>
-        </div>
-
-        <div class="status">
-            <h3>Feriados Municipais</h3>
-            <p id="municipaisMes">0</p>
-        </div>
-
-        <div class="status">
-            <h3>Pontos Facultativos</h3>
-            <p id="facultativosMes">0</p>
-        </div>
-
-        <div class="status">
-            <h3>Último E-mail</h3>
-            <p id="ultimoEmail">-</p>
-        </div>
-
-    </section>
-
+        <div class="status"><h3>Último E-mail</h3><p id="ultimoEmail">-</p></div>
+    </div>
 </div>
 
 <script src="javascript.js"></script>
 
-
 </body>
-
 </html>
