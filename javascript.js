@@ -1,56 +1,141 @@
 const Scheduler = {
     rodizio: [
-        { email: "Leila", retorno: "Adri", fieldglass: "Adri", fup: "Leto", service: "Leto", v360: "Adri", encerramento: "Adri" },
-        { email: "Leto", retorno: "Leila", fieldglass: "Leila", fup: "Adri", service: "Adri", v360: "Leila", encerramento: "Leila" },
-        { email: "Adri", retorno: "Leto", fieldglass: "Leto", fup: "Leila", service: "Leila", v360: "Leto", encerramento: "Leto" }
+        {
+            email: "Leila",
+            retorno: "Adri",
+            fieldglass: "Adri",
+            fup: "Leto",
+            service: "Girlene",
+            v360: "Adri",
+            spot: "Leila",
+            encerramento: "Adri"
+        },
+        {
+            email: "Leto",
+            retorno: "Leila",
+            fieldglass: "Leila",
+            fup: "Adri",
+            service: "Girlene",
+            v360: "Leila",
+            spot: "Adri",
+            encerramento: "Leila"
+        },
+        {
+            email: "Adri",
+            retorno: "Leto",
+            fieldglass: "Leto",
+            fup: "Leila",
+            service: "Girlene",
+            v360: "Leto",
+            spot: "Leto",
+            encerramento: "Leto"
+        }
     ],
-    dataBase: new Date(2026, 4, 4), // 04/05/2026
+
+    dataBase: new Date(2026, 4, 4),
 
     obterIndiceParaData(dataAlvo, ano) {
         let count = 0;
         let d = new Date(this.dataBase);
+
         const feriados = Holidays.obter(ano);
         const feriadosDatas = Object.keys(feriados);
 
-        if (dataAlvo < this.dataBase) return 0;
-
         while (d < dataAlvo) {
+
             const semana = d.getDay();
-            const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-            if (semana !== 0 && semana !== 6 && !feriadosDatas.includes(iso)) count++;
+
+            const iso =
+                `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
+            if (
+                semana !== 0 &&
+                semana !== 6 &&
+                !feriadosDatas.includes(iso)
+            ) {
+                count++;
+            }
+
             d.setDate(d.getDate() + 1);
         }
+
         return count;
     }
 };
 
 const Holidays = {
-    formatar(data) { return data.toISOString().split('T')[0]; },
-    calcularPascoa(ano) {
-        const a = ano % 19, b = Math.floor(ano / 100), c = ano % 100,
-            d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25),
-            g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30,
-            i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7,
-            m = Math.floor((a + 11 * h + 22 * l) / 451);
-        return new Date(ano, Math.floor((h + l - 7 * m + 114) / 31) - 1, ((h + l - 7 * m + 114) % 31) + 1);
+
+    formatar(data) {
+        return data.toISOString().split('T')[0];
     },
+
+    calcularPascoa(ano) {
+
+        const a = ano % 19;
+        const b = Math.floor(ano / 100);
+        const c = ano % 100;
+        const d = Math.floor(b / 4);
+        const e = b % 4;
+        const f = Math.floor((b + 8) / 25);
+        const g = Math.floor((b - f + 1) / 3);
+        const h = (19 * a + b - d - g + 15) % 30;
+        const i = Math.floor(c / 4);
+        const k = c % 4;
+        const l = (32 + 2 * e + 2 * i - h - k) % 7;
+        const m = Math.floor((a + 11 * h + 22 * l) / 451);
+
+        return new Date(
+            ano,
+            Math.floor((h + l - 7 * m + 114) / 31) - 1,
+            ((h + l - 7 * m + 114) % 31) + 1
+        );
+    },
+
     obter(ano) {
-        const p = this.calcularPascoa(ano);
-        const s = new Date(p); s.setDate(p.getDate() - 2); // Sexta Santa
-        const c = new Date(p); c.setDate(p.getDate() + 60); // Corpus Christi
 
         const lista = {};
+
+        const pascoa = this.calcularPascoa(ano);
+
+        const carnavalSeg = new Date(pascoa);
+        carnavalSeg.setDate(pascoa.getDate() - 48);
+
+        const carnavalTer = new Date(pascoa);
+        carnavalTer.setDate(pascoa.getDate() - 47);
+
+        const quartaCinzas = new Date(pascoa);
+        quartaCinzas.setDate(pascoa.getDate() - 46);
+
+        const sextaSanta = new Date(pascoa);
+        sextaSanta.setDate(pascoa.getDate() - 2);
+
+        const corpusChristi = new Date(pascoa);
+        corpusChristi.setDate(pascoa.getDate() + 60);
+
+        // Nacionais
         lista[`${ano}-01-01`] = "Ano Novo";
         lista[`${ano}-04-21`] = "Tiradentes";
         lista[`${ano}-05-01`] = "Dia do Trabalho";
-        lista[`${ano}-09-07`] = "Independência";
-        lista[`${ano}-10-12`] = "Nsa. Sra. Aparecida";
+        lista[`${ano}-09-07`] = "Independência do Brasil";
+        lista[`${ano}-10-12`] = "Nossa Senhora Aparecida";
         lista[`${ano}-11-02`] = "Finados";
         lista[`${ano}-11-15`] = "Proclamação da República";
         lista[`${ano}-11-20`] = "Consciência Negra";
         lista[`${ano}-12-25`] = "Natal";
-        lista[this.formatar(s)] = "Sexta-Feira Santa";
-        lista[this.formatar(c)] = "Corpus Christi";
+
+        // Móveis
+        lista[this.formatar(carnavalSeg)] = "Carnaval";
+        lista[this.formatar(carnavalTer)] = "Carnaval";
+        lista[this.formatar(quartaCinzas)] = "Ponto Facultativo - Quarta-feira de Cinzas";
+        lista[this.formatar(sextaSanta)] = "Sexta-feira Santa";
+        lista[this.formatar(corpusChristi)] = "Corpus Christi";
+
+        // Pernambuco
+        lista[`${ano}-03-06`] = "Revolução Pernambucana";
+
+        // Recife
+        lista[`${ano}-06-24`] = "São João";
+        lista[`${ano}-07-16`] = "Nossa Senhora do Carmo";
 
         return lista;
     }
@@ -116,7 +201,7 @@ const App = {
             if (feriadosDatas.includes(iso)) {
                 fers++;
                 tr.className = "feriado";
-                tr.innerHTML = `<td>${data.toLocaleDateString('pt-BR')}</td><td colspan="7">FERIADO: ${feriadosMap[iso]}</td>`;
+                tr.innerHTML = `<td>${data.toLocaleDateString('pt-BR')}</td><td colspan="8">FERIADO: ${feriadosMap[iso]}</td>`;
             } else {
                 const indiceReal = Scheduler.obterIndiceParaData(data, ano);
                 const r = Scheduler.rodizio[indiceReal % 3];
@@ -128,6 +213,7 @@ const App = {
                     <td class="${this.classe(r.fup)}">${r.fup}</td>
                     <td class="${this.classe(r.service)}">${r.service}</td>
                     <td class="${this.classe(r.v360)}">${r.v360}</td>
+                    <td class="${this.classe(r.spot)}">${r.spot}</td>
                     <td class="${this.classe(r.encerramento)}">${r.encerramento}</td>`;
                 uteis++;
                 document.getElementById("ultimoEmail").innerText = r.email;
