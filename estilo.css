@@ -1,25 +1,68 @@
-/* Configurações Globais e Variáveis */
+/* ==========================================================
+   CAF • PROGRAMAÇÃO INTELIGENTE
+   VERSÃO 2.1
+   CSS ORGANIZADO E RESPONSIVO
+========================================================== */
+
+
+/* ==========================================================
+   01. VARIÁVEIS
+========================================================== */
+
 :root {
-    --bg: #f4f7fb;
+
+    --bg: #f1f5f9;
     --card: #ffffff;
     --table: #ffffff;
-    --text: #1e293b;
-    --border: #e2e8f0;
-    --header: #2563eb;
-    --hover: #f1f5f9;
-    --shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+
+    --text: #0f172a;
+    --muted: #64748b;
+
+    --border: #dbe3ee;
+
+    --primary: #2563eb;
+    --secondary: #2563eb;
+
+    --hover: #eff6ff;
+
+    --accent: #2563eb;
+
+    --gradient: #2563eb;
+
+    --shadow:
+        0 8px 25px rgba(15, 23, 42, 0.08);
+
+    --radius: 14px;
+
+    --content-width: 1800px;
 }
 
-.dark {
-    --bg: #0f172a;
-    --card: #111827;
-    --table: #1e293b;
+
+/* ==========================================================
+   02. TEMA ESCURO
+========================================================== */
+
+body.dark {
+
+    --bg: #070d18;
+    --card: #0d1626;
+    --table: #111c2e;
+
     --text: #f8fafc;
-    --border: #334155;
-    --header: #1d4ed8;
-    --hover: #334155;
-    --shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    --muted: #94a3b8;
+
+    --border: #26364d;
+
+    --hover: #17263d;
+
+    --shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35);
 }
+
+
+/* ==========================================================
+   03. RESET
+========================================================== */
 
 * {
     margin: 0;
@@ -27,153 +70,1073 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 18px;
-    transition: background 0.3s, color 0.3s;
+
+html {
+    scroll-behavior: smooth;
 }
 
-/* Layout do Dashboard */
-.dashboard {
-    max-width: 1800px;
-    margin: auto;
+
+body {
+
+    min-height: 100vh;
+
+    padding:
+        clamp(8px, 1vw, 18px);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+
+    overflow-x: hidden;
 }
+
+
+/* ==========================================================
+   04. FUNDO FUTURISTA
+========================================================== */
+
+.ai-background {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -1;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+
+.ai-grid {
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(37, 99, 235, 0.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(37, 99, 235, 0.035) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        45px 45px;
+}
+
+
+.ai-glow {
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    border-radius: 50%;
+
+    filter: blur(100px);
+
+    opacity: 0.12;
+}
+
+
+.ai-glow-1 {
+
+    top: -150px;
+    left: -100px;
+
+    background: var(--primary);
+}
+
+
+.ai-glow-2 {
+
+    right: -150px;
+    top: 30%;
+
+    background: var(--secondary);
+}
+
+
+.ai-glow-3 {
+
+    bottom: -180px;
+    left: 40%;
+
+    background: var(--accent);
+}
+
+
+/* ==========================================================
+   05. DASHBOARD
+========================================================== */
+
+.dashboard {
+
+    width: 100%;
+
+    max-width:
+        var(--content-width);
+
+    margin: 0 auto;
+}
+
+
+/* ==========================================================
+   06. TOPBAR
+========================================================== */
 
 .topbar {
+
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
-    gap: 10px;
+
+    justify-content: space-between;
+
+    gap: 14px;
+
+    margin-bottom: 12px;
+
     flex-wrap: wrap;
-    margin-bottom: 16px;
 }
+
+
+/* ==========================================================
+   07. LOGO
+========================================================== */
 
 .logo {
+
     display: flex;
+
     align-items: center;
-    gap: 12px;
+
+    gap: 11px;
+
+    min-width: 260px;
 }
 
+
 .logo-box {
-    width: 45px;
-    height: 45px;
+
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: var(--gradient);
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 7px 20px
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            transparent
+        );
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.logo-box:hover {
+    transform: translateY(-2px);
+}
+
+
+.system-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    margin-bottom: 2px;
+
+    color: var(--primary);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+}
+
+
+.status-online {
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 8px #22c55e;
+}
+
+
+.logo h1 {
+
+    font-size:
+        clamp(20px, 1.5vw, 26px);
+
+    line-height: 1;
+
+    font-weight: 800;
+}
+
+
+.logo h1 span {
+    color: var(--primary);
+}
+
+
+.logo p {
+
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================================
+   08. CONTROLES
+========================================================== */
+
+.controls {
+
+    display: flex;
+
+    align-items: end;
+
+    justify-content: flex-end;
+
+    gap: 7px;
+
+    flex-wrap: wrap;
+}
+
+
+.control-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.control-group label {
+
+    padding-left: 3px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+}
+
+
+button,
+select {
+
+    min-height: 36px;
+
+    padding:
+        8px 11px;
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 45%,
+            var(--border)
+        );
+
+    border-radius: 9px;
+
+    background: var(--gradient);
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        filter 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+select {
+    min-width: 105px;
+}
+
+
+button:hover,
+select:hover {
+
+    transform: translateY(-1px);
+
+    filter: brightness(1.08);
+
+    box-shadow:
+        0 5px 15px
+        rgba(37, 99, 235, 0.15);
+}
+
+
+button:focus,
+select:focus {
+
+    outline:
+        2px solid
+        color-mix(
+            in srgb,
+            var(--primary) 35%,
+            transparent
+        );
+
+    outline-offset: 2px;
+}
+
+
+/* ==========================================================
+   09. PAINEL DE INTELIGÊNCIA
+========================================================== */
+
+.ai-panel {
+
+    min-height: 48px;
+
+    margin-bottom: 12px;
+
+    padding:
+        8px 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            var(--border)
+        );
+
     border-radius: 12px;
-    background: linear-gradient(135deg, #2563eb, #38bdf8);
-    color: #fff;
+
+    background:
+        linear-gradient(
+            100deg,
+            color-mix(
+                in srgb,
+                var(--primary) 7%,
+                var(--card)
+            ),
+            var(--card)
+        );
+
+    box-shadow: var(--shadow);
+}
+
+
+.ai-panel-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+.ai-icon {
+
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: var(--gradient);
+
+    color: #ffffff;
+
+    font-size: 14px;
+}
+
+
+.ai-label {
+
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: var(--primary);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+.ai-panel strong {
+
+    display: block;
+
+    color: var(--text);
+
+    font-size: 11px;
+}
+
+
+.ai-animation {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    height: 24px;
+}
+
+
+.ai-animation span {
+
+    width: 3px;
+    height: 8px;
+    border-radius: 5px;
+    background: var(--primary);
+    animation: aiPulse 1s infinite ease-in-out;
+}
+
+
+.ai-animation span:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.ai-animation span:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.ai-animation span:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.ai-animation span:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+
+@keyframes aiPulse {
+
+    0%,
+    100% {
+        height: 7px;
+        opacity: 0.35;
+    }
+
+    50% {
+        height: 20px;
+        opacity: 1;
+    }
+}
+
+
+/* ==========================================================
+   10. INDICADORES
+========================================================== */
+
+.status-bar {
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+
+.status-card {
+
+    position: relative;
+    min-height: 68px;
+    padding: 10px 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.status-card::before {
+
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient);
+}
+
+.status-card:hover {
+
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+}
+
+.status-icon {
+
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    color: var(--primary);
+    font-size: 16px;
+    font-weight: 800;
 }
 
-.controls {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+.status-content {
+    min-width: 0;
 }
 
-button, select {
-    border: none;
-    padding: 10px 14px;
-    border-radius: 10px;
-    background: #2563eb;
-    color: white;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: bold;
-    transition: 0.2s;
+
+.status-content h2 {
+    margin-bottom: 2px;
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
 }
 
-button:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+
+.status-content p {
+    color: var(--text);
+    font-size: clamp(18px, 1.4vw, 23px);
+    line-height: 1.05;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Tabela e Card */
+.status-person {
+    color: var(--primary) !important;
+    font-size: clamp(15px, 1.2vw, 20px) !important;
+}
+
+
+/* ==========================================================
+   11. CARD DA TABELA
+========================================================== */
+
 .card {
-    background: var(--card);
-    border-radius: 16px;
-    padding: 12px;
     border: 1px solid var(--border);
-    overflow: auto;
+    border-radius: var(--radius);
+    background: var(--card);
     box-shadow: var(--shadow);
+}
+
+.table-card {
+    overflow: hidden;
+}
+
+
+/* ==========================================================
+   12. CABEÇALHO DA TABELA
+========================================================== */
+
+.table-header {
+    min-height: 48px;
+    padding: 8px 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.table-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--text);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+}
+
+.table-status {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 8px var(--primary);
+}
+
+
+.table-subtitle {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.table-tech {
+    display: flex;
+    gap: 4px;
+}
+
+
+.table-tech span {
+    width: 4px;
+    height: 16px;
+    border-radius: 4px;
+    background: var(--gradient);
+    opacity: 0.65;
+}
+
+/* ==========================================================
+   13. TABELA
+========================================================== */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: calc(100vh - 250px);
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
 }
 
 table {
     width: 100%;
+    min-width: 900px;
     border-collapse: collapse;
-    font-size: 11px;
+    table-layout: fixed;
+    font-size: clamp(9px, 0.68vw, 12px);
 }
 
-th {
-    background: var(--header);
-    color: white;
-    padding: 9px;
-    border: 1px solid var(--border);
+
+thead th {
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 5;
+    padding: 8px 5px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: var(--gradient);
+    color: #ffffff;
+    font-size: clamp(8px, 0.65vw, 11px);
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
 }
 
-td {
-    padding: 7px;
-    text-align: center;
+
+tbody td {
+    height: 31px;
+    padding: 5px 4px;
     border: 1px solid var(--border);
     background: var(--table);
-    transition: all 0.2s ease;
+    color: var(--text);
+    text-align: center;
+    white-space: nowrap;
+    transition: background 0.15s ease, transform 0.15s ease;
 }
 
-.feriado td {
-    background: #fee2e2 !important;
-    color: #991b1b;
-    font-weight: bold;
-    text-transform: uppercase;
+tbody tr:hover td {
+    background: var(--hover);
 }
 
-/* Identificação Visual dos Nomes */
-.leila { color: #2563eb; font-weight: bold; }
-.adri { color: #059669; font-weight: bold; }
-.leto { color: #d97706; font-weight: bold; }
-.girlene{ color:#dc2626;font-weight:bold; }
 
-/* --- EFEITO ROLLOVER (CORREÇÃO) --- */
-td.leila:hover, td.adri:hover, td.leto:hover {
-    background-color: var(--header) !important;
-    color: white !important;
-    transform: scale(1.1); /* Aumenta um pouco mais para destaque */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    z-index: 10;           /* Garante que fique acima das outras células */
-    position: relative;    /* Necessário para o z-index funcionar */
+/* ==========================================================
+   14. LARGURAS DAS COLUNAS
+========================================================== */
+
+th:nth-child(1),
+td:nth-child(1) {
+    width: 9%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 10%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 10%;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+    width: 12%;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+    width: 8%;
+}
+
+th:nth-child(6),
+td:nth-child(6) {
+    width: 12%;
+}
+
+th:nth-child(7),
+td:nth-child(7) {
+    width: 9%;
+}
+
+th:nth-child(8),
+td:nth-child(8) {
+    width: 15%;
+}
+
+th:nth-child(9),
+td:nth-child(9) {
+    width: 15%;
+}
+
+
+/* ==========================================================
+   15. DIA ATUAL
+========================================================== */
+
+.hoje td {
+
+    border-top:
+        2px solid var(--accent);
+
+    border-bottom:
+        2px solid var(--accent);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--accent) 7%,
+            var(--table)
+        );
+
+    font-weight: 800;
+}
+
+
+/* ==========================================================
+   16. RESPONSÁVEIS
+========================================================== */
+
+.leila {color: #2563eb; font-weight: 800;}
+.adri {color: #059669;font-weight: 800;}
+.leto {color: #d97706; font-weight: 800;}
+.girlene {color: #9333ea; font-weight: 800;}
+
+td.leila:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
+    position: relative;
+    z-index: 10;
+    transform: scale(1.04);
+    background: var(--gradient) !important;
+    color: #ffffff !important;
     cursor: pointer;
 }
 
-/* Status Bar Inferior */
-.status-bar {
+/* ==========================================================
+   17. FERIADOS
+========================================================== */
+
+.feriado td {
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 6%,
+            var(--table)
+        ) !important;
+    color: var(--text);
+    font-weight: 800;
+}
+
+.feriado td[colspan] {color: var(--primary); letter-spacing: 0.2px;}
+
+/* ==========================================================
+   18. RODAPÉ
+========================================================== */
+
+.system-footer {
+    min-height: 30px;
+    padding: 7px 3px;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 10px;
-    margin-top: 12px;
-    flex-wrap: wrap;
+    color: var(--muted);
+    font-size: 9px;
 }
 
-.status {
-    flex: 1;
-    min-width: 180px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px;
-    box-shadow: var(--shadow);
+.footer-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--primary);
+    font-weight: 800;
 }
 
-.status h3 {
-    font-size: 11px;
-    color: #64748b;
-    margin-bottom: 5px;
+.footer-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 7px #22c55e;
 }
 
-.status p {
-    font-size: 22px;
-    font-weight: bold;
+/* ==========================================================
+   19. SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--primary) 60%, var(--muted));
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+::selection {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+/* ==========================================================
+   20. MONITORES GRANDES
+========================================================== */
+
+@media (min-width: 1600px) {
+    .dashboard {
+        max-width: 1800px;
+    }
+
+    .table-container {
+        max-height:
+            calc(100vh - 230px);
+    }
+
+    tbody td {
+        height: 33px;
+    }
+}
+
+/* ==========================================================
+   21. NOTEBOOK / 17"
+========================================================== */
+
+@media (max-width: 1400px) {
+    .logo-box {
+        width: 46px;
+        height: 46px;
+    }
+
+    .table-container {
+        max-height: calc(100vh - 235px);
+    }
+
+    tbody td {
+        height: 29px;
+    }
+}
+
+/* ==========================================================
+   22. TABLETS / TELAS MÉDIAS
+========================================================== */
+
+@media (max-width: 900px) {
+    .topbar {
+        align-items: stretch;
+    }
+
+    .logo {
+        min-width: 0;
+    }
+
+    .controls {
+        justify-content: flex-start;
+    }
+
+    .status-bar {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+    .status-card {
+        padding: 9px;
+    }
+
+    .status-icon {
+        width: 31px;
+        height: 31px;
+    }
+
+    .status-content h2 {
+        font-size: 8px;
+    }
+}
+
+/* ==========================================================
+   23. CELULAR
+========================================================== */
+
+@media (max-width: 650px) {
+    body {
+        padding: 7px;
+    }
+
+    .topbar {
+        flex-direction: column;
+    }
+
+    .logo {
+        justify-content: flex-start;
+    }
+
+    .controls {
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        width: 100%;
+    }
+
+    .control-group,
+    button,
+    select {
+        width: 100%;
+    }
+
+    .status-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .status-card {
+        min-height: 60px;
+    }
+
+    .ai-animation {
+        display: none;
+    }
+
+    .table-header {
+        padding: 8px;
+    }
+
+    .system-footer {
+        font-size: 8px;
+    }
+}
+
+footer a {
+    color: inherit; /* Mantém a mesma cor do texto do footer */
+    text-decoration: none; /* Remove o sublinhado padrão */
+}
+
+footer a:hover {
+    text-decoration: underline; /* Adiciona o sublinhado apenas quando passa o mouse */
+}
+
+/* ==========================================================
+   24. CELULARES PEQUENOS
+========================================================== */
+
+@media (max-width: 420px) {
+
+    .controls {
+        grid-template-columns: 1fr;
+    }
+
+    .logo h1 {
+        font-size: 19px;
+    }
+
+    .logo p {
+        font-size: 10px;
+    }
+
+    table {
+        font-size: 9px;
+    }
 }
