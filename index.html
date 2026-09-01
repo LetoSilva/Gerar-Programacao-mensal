@@ -1,77 +1,273 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="estilo.css">
-    <title>CAF - Programação Inteligente</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- Favicon -->
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="CAF - Sistema Inteligente de Programação e Escalas">
+    <meta name="author" content="CAF">
+
+    <title>CAF • Programação Inteligente</title>
+
     <link rel="icon" href="image/fav.png">
+    <link rel="stylesheet" href="estilo.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-
+    <!-- Bibliotecas externas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+    <script src="javascript.js" defer></script>
 </head>
+
 <body>
 
-<div class="dashboard">
-    <div class="topbar">
-        <div class="logo">
-            <div class="logo-box">CAF</div>
-            <div>
-                <h1>Programação Mensal</h1>
-                <p>Sistema Inteligente de Escalas</p>
+    <!-- =====================================================
+         FUNDO FUTURISTA
+    ====================================================== -->
+
+    <div class="ai-background" aria-hidden="true">
+        <div class="ai-grid"></div>
+        <div class="ai-glow ai-glow-1"></div>
+        <div class="ai-glow ai-glow-2"></div>
+        <div class="ai-glow ai-glow-3"></div>
+    </div>
+
+
+    <!-- =====================================================
+         SISTEMA
+    ====================================================== -->
+
+    <main class="dashboard">
+
+        <!-- =================================================
+             CABEÇALHO
+        ================================================== -->
+
+        <header class="topbar">
+
+            <!-- Identidade -->
+
+            <div class="logo">
+                <div class="logo-box">
+                    <span>CAF</span>
+                </div>
+
+                <div class="logo-info">
+
+                    <div class="system-status">
+                        <span class="status-online"></span>
+                        SISTEMA ONLINE
+                    </div>
+
+                    <h1>Programação
+                        <span>Mensal</span>
+                    </h1>
+
+                    <p>Sistema Inteligente de Escala</p>
+                </div>
             </div>
-        </div>
-        <div class="controls">
-            <select id="mes"></select>
-            <select id="ano">
-                <option>2025</option>
-                <option selected>2026</option>
-                <option>2027</option>
-                <option>2028</option>
-                <option>2029</option>
-                <option>2030</option>
-            </select>
-            <button onclick="App.alternarTema()">Tema</button>
-            <button onclick="App.exportarExcel()">Excel</button>
-            <button onclick="App.exportarPDF()">PDF</button>
-        </div>
-    </div>
 
-    <div class="card">
-        <table id="tabelaProgramacao">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>E-mail</th>
-                    <th>Retorno</th>
-                    <th>Fieldglass</th>
-                    <th>FUP</th>
-                    <th>Service Now</th>
-                    <th>V360</th>
-                    <th>Spot Materiais</th>
-                    <th>Encerramento</th>
-                </tr>
-            </thead>
-            <tbody id="tbodyProgramacao"></tbody>
-        </table>
-    </div>
+            <!-- Controles -->
 
-    <div class="status-bar">
-        <div class="status"><h3>Dias úteis</h3><p id="diasMes">0</p></div>
-        <div class="status">
-            <h3 id="labelFeriado">Feriado</h3>
-            <p id="feriadosMes">0</p>
-        </div>
-        <div class="status"><h3>Último E-mail</h3><p id="ultimoEmail">-</p></div>
-    </div>
-</div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="mes">Mês</label>
+                    <select id="mes"></select>
+                </div>
 
-<script src="javascript.js"></script>
+                <div class="control-group">
+                    <label for="ano">Ano</label>
+                    <select id="ano">
+                        <option value="2025">2025</option>
+                        <option value="2026" selected>2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                    </select>
+                </div>
+
+                <button id="btnTema" class="btn" type="button">Tema</button>
+                <button id="btnExcel" class="btn" type="button">Excel</button>
+                <button id="btnPDF" class="btn" type="button">PDF</button>
+            </div>
+        </header>
+
+        <!-- =================================================
+             PAINEL DE INTELIGÊNCIA
+        ================================================== -->
+
+       <!-- <section class="ai-panel">
+            <div class="ai-panel-left">
+                <div class="ai-icon">
+                    ✦
+                </div>
+
+                <div>
+                    <span class="ai-label">
+                        CAF INTELLIGENCE
+                    </span>
+                    <strong id="aiMensagem">
+                        Programação operacional ativa
+                    </strong>
+                </div>
+            </div>
+
+            <div class="ai-animation" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </section>
+    -->
+        <!-- =================================================
+             INDICADORES
+        ================================================== -->
+
+        <section class="status-bar">
+
+            <!-- Dias úteis -->
+
+            <article class="status-card">
+                <div class="status-icon">
+                    <span>▦</span>
+                </div>
+
+                <div class="status-content">
+                    <h2>
+                        DIAS ÚTEIS
+                    </h2>
+                    <p id="diasMes">
+                        0
+                    </p>
+                </div>
+            </article>
+
+            <!-- Feriados -->
+
+            <article class="status-card">
+                <div class="status-icon">
+                    <span>◈</span>
+                </div>
+
+                <div class="status-content">
+                    <h2 id="labelFeriado">
+                        FERIADOS
+                    </h2>
+
+                    <p id="feriadosMes">
+                        0
+                    </p>
+                </div>
+            </article>
+
+
+            <!-- E-mail de hoje -->
+
+            <article class="status-card status-email">
+                <div class="status-icon">
+                    <span>✉</span>
+                </div>
+                <div class="status-content">
+                    <h2>
+                        E-MAIL DE HOJE
+                    </h2>
+
+                    <p
+                        id="ultimoEmail"
+                        class="status-person">
+                        -
+                    </p>
+                </div>
+            </article>
+        </section>
+
+
+        <!-- =================================================
+             TABELA
+        ================================================== -->
+
+        <section class="card table-card">
+
+            <!-- Cabeçalho da tabela -->
+
+            <div class="table-header">
+                <div class="table-heading">
+                    <div class="table-title">
+                        <!--<span class="table-status"></span>-->
+                        <!--<span>
+                            PROGRAMAÇÃO OPERACIONAL
+                        </span>-->
+                    </div>
+
+                    <p
+                        id="tableSubtitle"
+                        class="table-subtitle">
+                        Programação mensal
+                    </p>
+                </div>
+
+                <!--<div class="table-tech" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>-->
+                <div class="ai-animation" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            </div>
+
+            <!-- Área da tabela -->
+
+            <div class="table-container">
+                <table id="tabelaProgramacao">
+                    <thead>
+                        <tr>
+                            <th>DATA</th>
+                            <th>E-MAIL</th>
+                            <th>RETORNO</th>
+                            <th>FIELDGLASS</th>
+                            <th>FUP</th>
+                            <th>SERVICE NOW</th>
+                            <th>V360</th>
+                            <th>SPOT MATERIAIS</th>
+                            <th>ENCERRAMENTO</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tbodyProgramacao">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =================================================
+             RODAPÉ
+        ================================================== -->
+
+        <footer class="system-footer">
+            <div class="footer-status">
+                <!--<span class="footer-dot"></span>-->
+                <span></span>
+            </div>
+
+            <span> </span>
+
+            <span>
+                © <a href="https://www.linkedin.com/in/wbcsilva" target="_blank" rel="noopener noreferrer">• Wellington Silva •</a><span id="systemYear"></span>
+            </span>
+        </footer>
+    </main>
 
 </body>
 </html>
