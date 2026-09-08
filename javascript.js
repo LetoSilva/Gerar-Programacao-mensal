@@ -172,32 +172,32 @@ const Scheduler = {
     rodizio: [
 
         {
-            email: "Duda",
+            email: "Leila",
             retorno: "Adri",
             fieldglass: "Leto",
             fup: "Leto",
             service: "Girlene",
-            v360: "Duda",
+            v360: "Leila",
             spot: "Adri",
             encerramento: "Adri"
         },
 
         {
             email: "Leto",
-            retorno: "Duda",
+            retorno: "Leila",
             fieldglass: "Adri",
             fup: "Adri",
             service: "Girlene",
             v360: "Leto",
-            spot: "Duda",
-            encerramento: "Duda"
+            spot: "Leila",
+            encerramento: "Leila"
         },
 
         {
             email: "Adri",
             retorno: "Leto",
-            fieldglass: "Duda",
-            fup: "Duda",
+            fieldglass: "Leila",
+            fup: "Leila",
             service: "Girlene",
             v360: "Adri",
             spot: "Leto",
