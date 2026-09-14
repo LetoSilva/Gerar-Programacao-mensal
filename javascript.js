@@ -18,7 +18,6 @@ const Holidays = {
             .split("T")[0];
     },
 
-
     calcularPascoa(ano) {
 
         const a = ano % 19;
@@ -31,19 +30,14 @@ const Holidays = {
         const f = Math.floor((b + 8) / 25);
         const g = Math.floor((b - f + 1) / 3);
 
-        const h =
-            (19 * a + b - d - g + 15) % 30;
+        const h = (19 * a + b - d - g + 15) % 30;
 
         const i = Math.floor(c / 4);
         const k = c % 4;
 
-        const l =
-            (32 + 2 * e + 2 * i - h - k) % 7;
+        const l = (32 + 2 * e + 2 * i - h - k) % 7;
 
-        const m =
-            Math.floor(
-                (a + 11 * h + 22 * l) / 451
-            );
+        const m = Math.floor((a + 11 * h + 22 * l) / 451);
 
         return new Date(
             ano,
@@ -172,17 +166,6 @@ const Scheduler = {
     rodizio: [
 
         {
-            email: "Duda",
-            retorno: "Adri",
-            fieldglass: "Leto",
-            fup: "Leto",
-            service: "Girlene",
-            v360: "Duda",
-            spot: "Adri",
-            encerramento: "Adri"
-        },
-
-        {
             email: "Leto",
             retorno: "Duda",
             fieldglass: "Adri",
@@ -202,7 +185,18 @@ const Scheduler = {
             v360: "Adri",
             spot: "Leto",
             encerramento: "Leto"
-        }
+        },
+
+        {
+            email: "Duda",
+            retorno: "Adri",
+            fieldglass: "Leto",
+            fup: "Leto",
+            service: "Girlene",
+            v360: "Duda",
+            spot: "Adri",
+            encerramento: "Adri"
+        },
 
     ],
 
