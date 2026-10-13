@@ -1,7 +1,6 @@
 /* ==========================================================
    CAF • PROGRAMAÇÃO INTELIGENTE
-   VERSÃO 2.1
-   CSS ORGANIZADO E RESPONSIVO
+   CSS COMPLETO
 ========================================================== */
 
 
@@ -14,32 +13,21 @@
     --bg: #f1f5f9;
     --card: #ffffff;
     --table: #ffffff;
-
     --text: #0f172a;
     --muted: #64748b;
-
     --border: #dbe3ee;
-
     --primary: #2563eb;
     --secondary: #2563eb;
-
     --hover: #eff6ff;
-
     --accent: #2563eb;
-
     --gradient: #2563eb;
-
-    --shadow:
-        0 8px 25px rgba(15, 23, 42, 0.08);
-
+    --shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
     --radius: 14px;
-
     --content-width: 1800px;
 }
 
-
 /* ==========================================================
-   02. TEMA ESCURO
+   TEMA ESCURO
 ========================================================== */
 
 body.dark {
@@ -47,21 +35,15 @@ body.dark {
     --bg: #070d18;
     --card: #0d1626;
     --table: #111c2e;
-
     --text: #f8fafc;
     --muted: #94a3b8;
-
     --border: #26364d;
-
     --hover: #17263d;
-
-    --shadow:
-        0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-
 /* ==========================================================
-   03. RESET
+   RESET
 ========================================================== */
 
 * {
@@ -70,240 +52,149 @@ body.dark {
     box-sizing: border-box;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
 
-
 body {
 
     min-height: 100vh;
-
-    padding:
-        clamp(8px, 1vw, 18px);
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    padding: clamp(8px, 1vw, 18px);
+    font-family: Arial, Helvetica, sans-serif;
     background: var(--bg);
-
     color: var(--text);
-
-    transition:
-        background 0.3s ease,
-        color 0.3s ease;
-
+    transition: background 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
 }
 
-
 /* ==========================================================
-   04. FUNDO FUTURISTA
+   FUNDO
 ========================================================== */
 
 .ai-background {
 
     position: fixed;
-
     inset: 0;
-
     z-index: -1;
-
     overflow: hidden;
-
     pointer-events: none;
 }
-
 
 .ai-grid {
 
     position: absolute;
-
     inset: 0;
-
-    background-image:
-        linear-gradient(
-            rgba(37, 99, 235, 0.035) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(37, 99, 235, 0.035) 1px,
-            transparent 1px
-        );
-
-    background-size:
-        45px 45px;
+    background-image: linear-gradient(rgba(37, 99, 235, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(37, 99, 235, 0.035) 1px, transparent 1px);
+    background-size: 45px 45px;
 }
-
 
 .ai-glow {
 
     position: absolute;
-
     width: 420px;
     height: 420px;
-
     border-radius: 50%;
-
     filter: blur(100px);
-
     opacity: 0.12;
 }
-
 
 .ai-glow-1 {
 
     top: -150px;
     left: -100px;
-
     background: var(--primary);
 }
-
 
 .ai-glow-2 {
 
     right: -150px;
     top: 30%;
-
     background: var(--secondary);
 }
-
 
 .ai-glow-3 {
 
     bottom: -180px;
     left: 40%;
-
     background: var(--accent);
 }
 
-
 /* ==========================================================
-   05. DASHBOARD
+   DASHBOARD
 ========================================================== */
 
 .dashboard {
-
     width: 100%;
-
-    max-width:
-        var(--content-width);
-
+    max-width: var(--content-width);
     margin: 0 auto;
 }
 
-
 /* ==========================================================
-   06. TOPBAR
+   TOPBAR
 ========================================================== */
 
 .topbar {
 
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 14px;
-
     margin-bottom: 12px;
-
     flex-wrap: wrap;
 }
 
-
 /* ==========================================================
-   07. LOGO
+   LOGO
 ========================================================== */
 
 .logo {
 
     display: flex;
-
     align-items: center;
-
     gap: 11px;
-
     min-width: 260px;
 }
-
 
 .logo-box {
 
     width: 50px;
     height: 50px;
-
     flex-shrink: 0;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     border-radius: 14px;
-
     background: var(--gradient);
-
     color: #ffffff;
-
     font-size: 16px;
-
     font-weight: 800;
-
-    box-shadow:
-        0 7px 20px
-        color-mix(
-            in srgb,
-            var(--primary) 25%,
-            transparent
-        );
-
-    transition:
-        transform 0.2s ease;
+    box-shadow: 0 7px 20px color-mix(in srgb, var(--primary) 25%, transparent);
+    transition: transform 0.2s ease;
 }
-
 
 .logo-box:hover {
     transform: translateY(-2px);
 }
 
-
 .system-status {
 
     display: flex;
-
     align-items: center;
-
     gap: 5px;
-
     margin-bottom: 2px;
-
     color: var(--primary);
-
     font-size: 9px;
-
     font-weight: 800;
-
     letter-spacing: 0.8px;
 }
-
 
 .status-online {
 
     width: 6px;
     height: 6px;
-
     border-radius: 50%;
-
     background: #22c55e;
-
-    box-shadow:
-        0 0 8px #22c55e;
+    box-shadow: 0 0 8px #22c55e;
 }
 
 
@@ -326,285 +217,84 @@ body {
 .logo p {
 
     margin-top: 4px;
-
     color: var(--muted);
-
     font-size: 11px;
-
     font-weight: 600;
 }
 
-
 /* ==========================================================
-   08. CONTROLES
+   CONTROLES
 ========================================================== */
 
 .controls {
 
     display: flex;
-
     align-items: end;
-
     justify-content: flex-end;
-
     gap: 7px;
-
     flex-wrap: wrap;
 }
-
 
 .control-group {
 
     display: flex;
-
     flex-direction: column;
-
     gap: 3px;
 }
-
 
 .control-group label {
 
     padding-left: 3px;
-
     color: var(--muted);
-
     font-size: 9px;
-
     font-weight: 700;
-
     text-transform: uppercase;
-
     letter-spacing: 0.4px;
 }
-
 
 button,
 select {
 
     min-height: 36px;
-
-    padding:
-        8px 11px;
-
-    border:
-        1px solid
-        color-mix(
-            in srgb,
-            var(--primary) 45%,
-            var(--border)
-        );
-
+    padding: 8px 11px;
+    border: 1px solid color-mix(in srgb, var(--primary) 45%, var(--border));
     border-radius: 9px;
-
     background: var(--gradient);
-
     color: #ffffff;
-
     font-family: inherit;
-
     font-size: 11px;
-
     font-weight: 700;
-
     cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        filter 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
 }
-
 
 select {
     min-width: 105px;
 }
 
-
 button:hover,
 select:hover {
 
     transform: translateY(-1px);
-
     filter: brightness(1.08);
-
-    box-shadow:
-        0 5px 15px
-        rgba(37, 99, 235, 0.15);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.15);
 }
-
 
 button:focus,
 select:focus {
 
-    outline:
-        2px solid
-        color-mix(
-            in srgb,
-            var(--primary) 35%,
-            transparent
-        );
-
+    outline: 2px solid color-mix(in srgb, var(--primary) 35%, transparent);
     outline-offset: 2px;
 }
 
+.btn-danger {
+
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    border-color: #dc2626;
+}
 
 /* ==========================================================
-   09. PAINEL DE INTELIGÊNCIA
-========================================================== */
-
-.ai-panel {
-
-    min-height: 48px;
-
-    margin-bottom: 12px;
-
-    padding:
-        8px 14px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    border:
-        1px solid
-        color-mix(
-            in srgb,
-            var(--primary) 25%,
-            var(--border)
-        );
-
-    border-radius: 12px;
-
-    background:
-        linear-gradient(
-            100deg,
-            color-mix(
-                in srgb,
-                var(--primary) 7%,
-                var(--card)
-            ),
-            var(--card)
-        );
-
-    box-shadow: var(--shadow);
-}
-
-
-.ai-panel-left {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
-}
-
-
-.ai-icon {
-
-    width: 28px;
-    height: 28px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 8px;
-
-    background: var(--gradient);
-
-    color: #ffffff;
-
-    font-size: 14px;
-}
-
-
-.ai-label {
-
-    display: block;
-
-    margin-bottom: 2px;
-
-    color: var(--primary);
-
-    font-size: 8px;
-
-    font-weight: 800;
-
-    letter-spacing: 1px;
-}
-
-
-.ai-panel strong {
-
-    display: block;
-
-    color: var(--text);
-
-    font-size: 11px;
-}
-
-
-.ai-animation {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 3px;
-
-    height: 24px;
-}
-
-
-.ai-animation span {
-
-    width: 3px;
-    height: 8px;
-    border-radius: 5px;
-    background: var(--primary);
-    animation: aiPulse 1s infinite ease-in-out;
-}
-
-
-.ai-animation span:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.ai-animation span:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-.ai-animation span:nth-child(4) {
-    animation-delay: 0.3s;
-}
-
-.ai-animation span:nth-child(5) {
-    animation-delay: 0.4s;
-}
-
-
-@keyframes aiPulse {
-
-    0%,
-    100% {
-        height: 7px;
-        opacity: 0.35;
-    }
-
-    50% {
-        height: 20px;
-        opacity: 1;
-    }
-}
-
-
-/* ==========================================================
-   10. INDICADORES
+   INDICADORES
 ========================================================== */
 
 .status-bar {
@@ -614,7 +304,6 @@ select:focus {
     gap: 10px;
     margin-bottom: 12px;
 }
-
 
 .status-card {
 
@@ -668,8 +357,8 @@ select:focus {
     min-width: 0;
 }
 
-
 .status-content h2 {
+
     margin-bottom: 2px;
     color: var(--muted);
     font-size: 9px;
@@ -677,8 +366,8 @@ select:focus {
     letter-spacing: 0.7px;
 }
 
-
 .status-content p {
+
     color: var(--text);
     font-size: clamp(18px, 1.4vw, 23px);
     line-height: 1.05;
@@ -689,18 +378,20 @@ select:focus {
 }
 
 .status-person {
+
     color: var(--primary) !important;
     font-size: clamp(15px, 1.2vw, 20px) !important;
 }
 
-
 /* ==========================================================
-   11. CARD DA TABELA
+   CARD
 ========================================================== */
 
 .card {
+
     border: 1px solid var(--border);
     border-radius: var(--radius);
+
     background: var(--card);
     box-shadow: var(--shadow);
 }
@@ -709,12 +400,12 @@ select:focus {
     overflow: hidden;
 }
 
-
 /* ==========================================================
-   12. CABEÇALHO DA TABELA
+   CABEÇALHO TABELA
 ========================================================== */
 
 .table-header {
+
     min-height: 48px;
     padding: 8px 13px;
     display: flex;
@@ -724,50 +415,90 @@ select:focus {
     border-bottom: 1px solid var(--border);
 }
 
-.table-title {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    color: var(--text);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.7px;
+.table-heading {
+    min-width: 0;
 }
-
-.table-status {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 8px var(--primary);
-}
-
 
 .table-subtitle {
+
     margin-top: 2px;
     color: var(--muted);
-    font-size: 9px;
+    font-size: 10px;
 }
 
-.table-tech {
+.table-tools {
+
     display: flex;
-    gap: 4px;
+    align-items: center;
+    gap: 12px;
 }
 
+.edit-help {
 
-.table-tech span {
-    width: 4px;
-    height: 16px;
-    border-radius: 4px;
-    background: var(--gradient);
-    opacity: 0.65;
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 /* ==========================================================
-   13. TABELA
+   ANIMAÇÃO
+========================================================== */
+
+.ai-animation {
+
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 24px;
+}
+
+.ai-animation span {
+
+    width: 3px;
+    height: 8px;
+    border-radius: 5px;
+    background: var(--primary);
+    animation: aiPulse 1s infinite ease-in-out;
+}
+
+.ai-animation span:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.ai-animation span:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.ai-animation span:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.ai-animation span:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+
+@keyframes aiPulse {
+
+    0%,
+    100% {
+        height: 7px;
+        opacity: 0.35;
+    }
+
+    50% {
+        height: 20px;
+        opacity: 1;
+    }
+}
+
+/* ==========================================================
+   TABELA
 ========================================================== */
 
 .table-container {
+
     width: 100%;
     overflow-x: auto;
     overflow-y: auto;
@@ -777,6 +508,7 @@ select:focus {
 }
 
 table {
+
     width: 100%;
     min-width: 900px;
     border-collapse: collapse;
@@ -784,8 +516,8 @@ table {
     font-size: clamp(9px, 0.68vw, 12px);
 }
 
-
 thead th {
+
     position: sticky;
     top: 0;
     z-index: 5;
@@ -799,8 +531,8 @@ thead th {
     white-space: nowrap;
 }
 
-
 tbody td {
+
     height: 31px;
     padding: 5px 4px;
     border: 1px solid var(--border);
@@ -815,9 +547,8 @@ tbody tr:hover td {
     background: var(--hover);
 }
 
-
 /* ==========================================================
-   14. LARGURAS DAS COLUNAS
+   COLUNAS
 ========================================================== */
 
 th:nth-child(1),
@@ -829,6 +560,7 @@ th:nth-child(2),
 td:nth-child(2) {
     width: 10%;
 }
+
 
 th:nth-child(3),
 td:nth-child(3) {
@@ -865,41 +597,33 @@ td:nth-child(9) {
     width: 15%;
 }
 
-
 /* ==========================================================
-   15. DIA ATUAL
+   DIA ATUAL
 ========================================================== */
 
 .hoje td {
 
-    border-top:
-        2px solid var(--accent);
-
-    border-bottom:
-        2px solid var(--accent);
-
-    background:
-        color-mix(
-            in srgb,
-            var(--accent) 7%,
-            var(--table)
-        );
-
+    border-top: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 7%, var(--table));
     font-weight: 800;
 }
 
-
 /* ==========================================================
-   16. RESPONSÁVEIS
+   NOMES CLICÁVEIS
 ========================================================== */
 
-.Duda {color: #2563eb; font-weight: 800;}
-.adri {color: #059669;font-weight: 800;}
-.leto {color: #d97706; font-weight: 800;}
-.girlene {color: #9333ea; font-weight: 800;}
+.colaborador {
 
-td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
     position: relative;
+    cursor: pointer;
+    font-weight: 800;
+    user-select: none;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.colaborador:hover {
+
     z-index: 10;
     transform: scale(1.04);
     background: var(--gradient) !important;
@@ -907,28 +631,280 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
     cursor: pointer;
 }
 
+.colaborador::after {
+
+    content: "✎";
+    margin-left: 4px;
+    font-size: 8px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.colaborador:hover::after {
+    opacity: 0.9;
+}
+
+.duda {
+    color: #2563eb;
+}
+
+.adri {
+    color: #059669;
+}
+
+.leto {
+    color: #d97706;
+}
+
+
+.girlene {
+    color: #9333ea;
+}
+
 /* ==========================================================
-   17. FERIADOS
+   FERIADOS
 ========================================================== */
 
 .feriado td {
-    background:
-        color-mix(
-            in srgb,
-            var(--primary) 6%,
-            var(--table)
-        ) !important;
+
+    background: color-mix(in srgb, var(--primary) 6%, var(--table)) !important;
     color: var(--text);
     font-weight: 800;
 }
 
-.feriado td[colspan] {color: var(--primary); letter-spacing: 0.2px;}
+.feriado td[colspan] {
+
+    color: var(--primary);
+    letter-spacing: 0.2px;
+}
 
 /* ==========================================================
-   18. RODAPÉ
+   MODAL
+========================================================== */
+
+.modal-overlay {
+
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(2, 6, 23, 0.68);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.modal-overlay.active {
+
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--card);
+    color: var(--text);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+    transform: translateY(15px) scale(0.98);
+    transition: transform 0.2s ease;
+}
+
+.modal-overlay.active .modal {
+
+    transform: translateY(0) scale(1);
+}
+
+.modal-header {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-label {
+
+    display: block;
+    margin-bottom: 4px;
+    color: var(--primary);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.modal-header h2 {
+
+    font-size: 19px;
+    line-height: 1.1;
+}
+
+.modal-close {
+
+    width: 34px;
+    height: 34px;
+    min-height: 34px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    background: var(--hover);
+    color: var(--text);
+    font-size: 22px;
+    line-height: 1;
+}
+
+.modal-close:hover {
+
+    background: #dc2626;
+    color: #ffffff;
+}
+
+.modal-body {
+
+    padding: 20px;
+}
+
+.modal-info {
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.info-item {
+
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius:9px;
+    background: color-mix(in srgb, var(--primary) 4%, var(--card));
+}
+
+.info-item span {
+
+    display: block;
+    margin-bottom: 4px;
+    color: var(--muted);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.info-item strong {
+
+    display: block;
+    overflow: hidden;
+    color: var(--text);
+    font-size: 11px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.modal-select-label {
+
+    display: block;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.modal-select {
+
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--table);
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.modal-actions {
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-modal {
+
+    min-height: 40px;
+    padding: 9px 13px;
+    border-radius: 9px;
+}
+
+.btn-primary {
+
+    background: var(--primary);
+}
+
+.btn-secondary {
+
+    background: var(--muted);
+
+    border-color: var(--muted);
+}
+
+.btn-warning {
+
+    background: #d97706;
+    border-color: #d97706;
+}
+
+/* ==========================================================
+   TOAST
+========================================================== */
+
+.toast {
+
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2000;
+    max-width: 360px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: #0f172a;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+
+.toast.show {
+
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* ==========================================================
+   RODAPÉ
 ========================================================== */
 
 .system-footer {
+
     min-height: 30px;
     padding: 7px 3px;
     display: flex;
@@ -940,6 +916,7 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
 }
 
 .footer-status {
+
     display: flex;
     align-items: center;
     gap: 5px;
@@ -948,6 +925,7 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
 }
 
 .footer-dot {
+
     width: 5px;
     height: 5px;
     border-radius: 50%;
@@ -955,20 +933,33 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
     box-shadow: 0 0 7px #22c55e;
 }
 
+footer a {
+
+    color: inherit;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
 /* ==========================================================
-   19. SCROLLBAR
+   SCROLLBAR
 ========================================================== */
 
 ::-webkit-scrollbar {
+
     width: 8px;
     height: 8px;
 }
+
 
 ::-webkit-scrollbar-track {
     background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
+
     background: color-mix(in srgb, var(--primary) 60%, var(--muted));
     border-radius: 10px;
 }
@@ -978,22 +969,24 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
 }
 
 ::selection {
+
     background: var(--primary);
+
     color: #ffffff;
 }
 
 /* ==========================================================
-   20. MONITORES GRANDES
+   MONITORES GRANDES
 ========================================================== */
 
 @media (min-width: 1600px) {
+
     .dashboard {
         max-width: 1800px;
     }
 
     .table-container {
-        max-height:
-            calc(100vh - 230px);
+        max-height: calc(100vh - 230px);
     }
 
     tbody td {
@@ -1002,10 +995,11 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
 }
 
 /* ==========================================================
-   21. NOTEBOOK / 17"
+   NOTEBOOK
 ========================================================== */
 
 @media (max-width: 1400px) {
+
     .logo-box {
         width: 46px;
         height: 46px;
@@ -1021,10 +1015,11 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
 }
 
 /* ==========================================================
-   22. TABLETS / TELAS MÉDIAS
+   TABLETS
 ========================================================== */
 
 @media (max-width: 900px) {
+
     .topbar {
         align-items: stretch;
     }
@@ -1038,8 +1033,7 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
     }
 
     .status-bar {
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .status-card {
@@ -1054,30 +1048,37 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
     .status-content h2 {
         font-size: 8px;
     }
+
+    .edit-help {
+        display: none;
+    }
 }
 
 /* ==========================================================
-   23. CELULAR
+   CELULAR
 ========================================================== */
 
 @media (max-width: 650px) {
+
     body {
         padding: 7px;
     }
 
     .topbar {
+
         flex-direction: column;
     }
 
     .logo {
+
         justify-content: flex-start;
     }
 
     .controls {
+
         display: grid;
 
-        grid-template-columns:
-            1fr 1fr;
+        grid-template-columns: 1fr 1fr;
 
         width: 100%;
     }
@@ -1085,10 +1086,12 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
     .control-group,
     button,
     select {
+
         width: 100%;
     }
 
     .status-bar {
+
         grid-template-columns: 1fr;
     }
 
@@ -1107,36 +1110,43 @@ td.Duda:hover, td.adri:hover, td.leto:hover, td.girlene:hover {
     .system-footer {
         font-size: 8px;
     }
-}
 
-footer a {
-    color: inherit; /* Mantém a mesma cor do texto do footer */
-    text-decoration: none; /* Remove o sublinhado padrão */
-}
+    .modal-info {
+        grid-template-columns: 1fr;
+    }
 
-footer a:hover {
-    text-decoration: underline; /* Adiciona o sublinhado apenas quando passa o mouse */
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .btn-modal {
+        width: 100%;
+    }
 }
 
 /* ==========================================================
-   24. CELULARES PEQUENOS
+   CELULARES PEQUENOS
 ========================================================== */
 
 @media (max-width: 420px) {
 
     .controls {
+
         grid-template-columns: 1fr;
     }
 
     .logo h1 {
+
         font-size: 19px;
     }
 
     .logo p {
+
         font-size: 10px;
     }
 
     table {
+
         font-size: 9px;
     }
 }
