@@ -88,40 +88,56 @@ const Holidays = {
 ========================================================== */
 const Scheduler = {
     rodizioPadrao: [
-        {
-            email: "Leto",
-            retorno: "Duda",
-            fieldglass: "Adri",
-            fup: "Adri",
-            service: "Girlene",
-            v360: "Leto",
-            spot: "Duda",
-            encerramento: "Duda"
-        },
-        {
-            email: "Adri",
-            retorno: "Leto",
-            fieldglass: "Duda",
-            fup: "Duda",
-            service: "Girlene",
-            v360: "Adri",
-            spot: "Leto",
-            encerramento: "Leto"
-        },
+        // Ordem oficial da escala:
+        // Dia 13 (hoje):
+        // Duda: E-mail e V360
+        // Leto: Retorno, Spot Materiais e Encerramento
+        // Adri: Fieldglass e FUP
+        // Girlene: Service Now
         {
             email: "Duda",
-            retorno: "Adri",
+            v360: "Duda",
+            retorno: "Leto",
+            spot: "Leto",
+            encerramento: "Leto",
+            fieldglass: "Adri",
+            fup: "Adri",
+            service: "Girlene"
+        },
+        // Dia 14:
+        // Adri: E-mail e V360
+        // Duda: Retorno, Spot Materiais e Encerramento
+        // Leto: Fieldglass e FUP
+        // Girlene: Service Now
+        {
+            email: "Adri",
+            v360: "Adri",
+            retorno: "Duda",
+            spot: "Duda",
+            encerramento: "Duda",
             fieldglass: "Leto",
             fup: "Leto",
-            service: "Girlene",
-            v360: "Duda",
+            service: "Girlene"
+        },
+        // Dia 15 (sequência do rodízio):
+        // Leto: E-mail e V360
+        // Adri: Retorno, Spot Materiais e Encerramento
+        // Duda: Fieldglass e FUP
+        // Girlene: Service Now
+        {
+            email: "Leto",
+            v360: "Leto",
+            retorno: "Adri",
             spot: "Adri",
-            encerramento: "Adri"
+            encerramento: "Adri",
+            fieldglass: "Duda",
+            fup: "Duda",
+            service: "Girlene"
         }
     ],
 
-    // Data base padrão
-    dataBase: new Date(2026, 4, 4),
+    // Data base padrão: 13 de Outubro de 2026 (Hoje: Duda no E-mail/V360)
+    dataBase: new Date(2026, 9, 13),
 
     // Lista de ausências cadastradas (Férias, Folga, Ausência).
     // NÃO adiciona automaticamente Adri de férias. Usuário ativa quando quiser.
@@ -129,31 +145,36 @@ const Scheduler = {
 
     obterIndiceParaData(dataAlvo, ano) {
         let contador = 0;
-        const data = new Date(this.dataBase);
+        const base = new Date(this.dataBase.getFullYear(), this.dataBase.getMonth(), this.dataBase.getDate());
+        const alvo = new Date(dataAlvo.getFullYear(), dataAlvo.getMonth(), dataAlvo.getDate());
         const feriados = Holidays.obter(ano);
         const feriadosDatas = Object.keys(feriados);
 
-        if (data < dataAlvo) {
-            while (data < dataAlvo) {
-                const diaSemana = data.getDay();
-                const iso = Holidays.formatar(data);
+        if (base.getTime() === alvo.getTime()) {
+            return 0;
+        }
+
+        if (base < alvo) {
+            const cursor = new Date(base);
+            while (cursor < alvo) {
+                const diaSemana = cursor.getDay();
+                const iso = Holidays.formatar(cursor);
                 const diaUtil = diaSemana !== 0 && diaSemana !== 6 && !feriadosDatas.includes(iso);
                 if (diaUtil) contador++;
-                data.setDate(data.getDate() + 1);
+                cursor.setDate(cursor.getDate() + 1);
             }
-            return contador;
         } else {
-            const temp = new Date(dataAlvo);
-            while (temp < data) {
-                const diaSemana = temp.getDay();
-                const iso = Holidays.formatar(temp);
+            const cursor = new Date(alvo);
+            while (cursor < base) {
+                const diaSemana = cursor.getDay();
+                const iso = Holidays.formatar(cursor);
                 const diaUtil = diaSemana !== 0 && diaSemana !== 6 && !feriadosDatas.includes(iso);
                 if (diaUtil) contador--;
-                temp.setDate(temp.getDate() + 1);
+                cursor.setDate(cursor.getDate() + 1);
             }
-            const total = this.rodizioPadrao.length;
-            return ((contador % total) + total) % total;
         }
+        const total = this.rodizioPadrao.length;
+        return ((contador % total) + total) % total;
     },
 
     /**
@@ -164,109 +185,105 @@ const Scheduler = {
     },
 
     /**
-     * Gera a escala do dia respeitando:
-     * 1. Ausências (Férias, Folga, Ausência)
-     * 2. Girlene SEMPRE FIXA em Service Now
-     * 3. NUNCA o mesmo colaborador 2 dias úteis seguidos no E-mail
-     * 4. E-MAIL e V360 sincronizados
+     * Gera a escala do dia:
+     * - Dias normais: cumprem rigorosamente a ordem de rodízio oficial enviada pelo usuário:
+     *   * Dia 13: Duda E-mail/V360 | Leto Retorno/Spot/Encerramento | Adri Fieldglass/FUP | Girlene Service Now
+     *   * Dia 14: Adri E-mail/V360 | Duda Retorno/Spot/Encerramento | Leto Fieldglass/FUP | Girlene Service Now
+     *   * Dia 15: Leto E-mail/V360 | Adri Retorno/Spot/Encerramento | Duda Fieldglass/FUP | Girlene Service Now
+     *   * NUNCA o mesmo colaborador 2 dias seguidos no E-mail/V360!
+     * - Quando um colaborador estiver de férias, folga ou ausente:
+     *   aplica automaticamente a regra de redistribuição:
+     *   * Quem fica no E-mail recebe 3 funções: E-mail, V360 e SPOT.
+     *   * O outro colaborador recebe as 4 funções restantes: Retorno, Fieldglass, FUP e Encerramento.
+     *   * Girlene sempre fixa no Service Now.
+     *   * Alterna a cada dia útil para nunca colocar o mesmo colaborador 2 dias seguidos no E-mail.
      */
     gerarEscalaDia(data, ano, emailDiaAnterior) {
         const iso = Holidays.formatar(data);
-        const indice = Math.abs(this.obterIndiceParaData(data, ano)) % this.rodizioPadrao.length;
-        const base = { ...this.rodizioPadrao[indice] };
 
         // Verifica colaboradores ausentes nesta data
         const ausenciasDoDia = this.obterAusenciasParaData(iso);
         const colaboradoresAusentes = ausenciasDoDia.map(a => a.colaborador);
 
-        // Colaboradores elegíveis para substituição (Girlene é sempre fixa em Service Now)
+        // 1. DIA NORMAL (SEM NENHUM COLABORADOR AUSENTE):
+        // Segue a rotação cíclica oficial!
+        if (colaboradoresAusentes.length === 0) {
+            let indice = this.obterIndiceParaData(data, ano);
+            // Regra inviolável: NUNCA o mesmo colaborador 2 dias seguidos no E-mail e V360
+            if (emailDiaAnterior && this.rodizioPadrao[indice].email === emailDiaAnterior) {
+                indice = (indice + 1) % this.rodizioPadrao.length;
+            }
+            return {
+                valores: { ...this.rodizioPadrao[indice] },
+                ausencias: []
+            };
+        }
+
+        // 2. DIA COM AUSÊNCIA (FÉRIAS, FOLGA OU AUSÊNCIA):
+        // As regras especiais são ativadas automaticamente!
+        // Girlene SEMPRE FIXA em Service Now! (1 função)
+        // Sobram 7 atribuições para os 2 colaboradores disponíveis.
         const todosOperadores = ["Duda", "Adri", "Leto"];
         const disponiveis = todosOperadores.filter(c => !colaboradoresAusentes.includes(c));
 
-        // Se ninguém estiver ausente:
-        if (colaboradoresAusentes.length === 0) {
-            // Valida regra: NUNCA o mesmo colaborador 2 dias seguidos no E-mail
-            let emailFinal = base.email;
-            if (emailDiaAnterior && emailFinal === emailDiaAnterior) {
-                // Alterna para outro colaborador disponível no dia
-                const alternativo = todosOperadores.find(c => c !== emailDiaAnterior && c !== base.retorno);
-                if (alternativo) {
-                    emailFinal = alternativo;
+        if (disponiveis.length === 2) {
+            let colabEmail;
+            let colabOutro;
+
+            // Se ontem um dos disponíveis fez E-mail, hoje OBRIGATORIAMENTE o outro assume:
+            if (emailDiaAnterior && disponiveis.includes(emailDiaAnterior)) {
+                colabEmail = disponiveis.find(c => c !== emailDiaAnterior);
+                colabOutro = emailDiaAnterior;
+            } else {
+                // Início da ausência ou dia anterior não era um dos disponíveis:
+                const indiceNormal = this.obterIndiceParaData(data, ano);
+                const titularNormal = this.rodizioPadrao[indiceNormal].email;
+                if (disponiveis.includes(titularNormal) && titularNormal !== emailDiaAnterior) {
+                    colabEmail = titularNormal;
+                    colabOutro = disponiveis.find(c => c !== titularNormal);
+                } else {
+                    colabEmail = disponiveis.find(c => c !== emailDiaAnterior) || disponiveis[0];
+                    colabOutro = disponiveis.find(c => c !== colabEmail);
                 }
             }
-            base.email = emailFinal;
-            base.v360 = emailFinal; // Sincronizado
-            base.service = "Girlene"; // Sempre fixa
-            return { valores: base, ausencias: [] };
-        }
 
-        // REDISTRIBUIÇÃO AUTOMÁTICA DE AUSÊNCIA (Férias, Folga, Ausência):
-        // Girlene SEMPRE FIXA em Service Now! (1 atribuição)
-        // Como são 7 atribuições restantes: um fica com 4, outro com 3.
-        // Regra do usuário: quem ficar no e-mail fica com 3 atribuições!
-        // E nunca colocar o mesmo colaborador 2 dias seguidos no e-mail.
-        if (disponiveis.length === 2) {
-            const [c1, c2] = disponiveis;
-
-            // 1. Determina quem fica no E-MAIL hoje (evitando repetição consecutiva):
-            let colabEmail;
-            if (emailDiaAnterior === c1) {
-                colabEmail = c2;
-            } else if (emailDiaAnterior === c2) {
-                colabEmail = c1;
-            } else {
-                colabEmail = (base.email === c1 || base.email === c2) ? base.email : c1;
-            }
-
-            const colabOutro = colabEmail === c1 ? c2 : c1;
-
-            // 2. Quem fica no E-mail fica com EXATAMENTE 3 atribuições:
-            // - E-mail
-            // - V360 (sincronizado)
-            // - Spot Materiais
-            // O outro colaborador fica com as outras 4 atribuições:
-            // - Retorno
-            // - Fieldglass
-            // - FUP
-            // - Encerramento
-            // Girlene sempre fixa em Service Now (1 atribuição)
             return {
                 valores: {
-                    email: colabEmail,        // 1ª atribuição de quem está no E-mail
-                    v360: colabEmail,         // 2ª atribuição de quem está no E-mail (sincronizado)
-                    spot: colabEmail,         // 3ª atribuição de quem está no E-mail -> TOTAL: 3 atribuições!
+                    email: colabEmail,        // 1ª função de quem está no E-mail
+                    v360: colabEmail,         // 2ª função de quem está no E-mail (sincronizado)
+                    spot: colabEmail,         // 3ª função de quem está no E-mail -> TOTAL: 3 funções!
 
-                    retorno: colabOutro,      // 1ª atribuição do outro colaborador
-                    fieldglass: colabOutro,   // 2ª atribuição do outro colaborador
-                    fup: colabOutro,          // 3ª atribuição do outro colaborador
-                    encerramento: colabOutro, // 4ª atribuição do outro colaborador -> TOTAL: 4 atribuições!
+                    retorno: colabOutro,      // 1ª função do outro colaborador
+                    fieldglass: colabOutro,   // 2ª função do outro colaborador
+                    fup: colabOutro,          // 3ª função do outro colaborador
+                    encerramento: colabOutro, // 4ª função do outro colaborador -> TOTAL: 4 funções!
 
-                    service: "Girlene"        // Girlene sempre FIXA no Service Now (1 atribuição)
+                    service: "Girlene"        // Girlene sempre FIXA no Service Now (1 função)
                 },
                 ausencias: ausenciasDoDia
             };
         }
 
-        // Caso haja apenas 1 operador disponível (2 ausentes no mesmo dia):
+        // Caso excepcional com 2 ausentes simultâneos (1 operador disponível):
         if (disponiveis.length === 1) {
             const unico = disponiveis[0];
             return {
                 valores: {
                     email: unico,
+                    v360: unico,
+                    spot: unico,
                     retorno: unico,
                     fieldglass: unico,
                     fup: unico,
-                    service: "Girlene",
-                    v360: unico,
-                    spot: unico,
-                    encerramento: unico
+                    encerramento: unico,
+                    service: "Girlene"
                 },
                 ausencias: ausenciasDoDia
             };
         }
 
         return {
-            valores: base,
+            valores: { ...this.escalaBasePadrao },
             ausencias: ausenciasDoDia
         };
     }
@@ -441,11 +458,37 @@ const App = {
         }
     ],
 
+    canalBroadcast: null,
+    evtSource: null,
+
     init() {
         const selectMes = document.getElementById("mes");
         const selectAno = document.getElementById("ano");
 
         if (!selectMes || !selectAno) return;
+
+        // Canal de transmissão entre abas e janelas do mesmo navegador (0ms de atraso)
+        try {
+            if (typeof BroadcastChannel !== "undefined") {
+                this.canalBroadcast = new BroadcastChannel("escala_caf_live_channel");
+                this.canalBroadcast.onmessage = (event) => {
+                    if (event.data && event.data.tipo === "atualizacao") {
+                        this.aplicarDadosServidor(event.data.dados);
+                    }
+                };
+            }
+        } catch (e) {
+            console.warn("BroadcastChannel não suportado neste navegador.");
+        }
+
+        // Sincronização via evento 'storage' nativo do navegador
+        window.addEventListener("storage", (e) => {
+            if (e.key === this.storageKey || e.key === this.storageAusenciasKey) {
+                this.carregarLocalStorage();
+                this.gerarMes();
+                this.renderizarListaAusencias();
+            }
+        });
 
         this.carregarLocalStorage();
         this.preencherMeses(selectMes);
@@ -471,11 +514,124 @@ const App = {
 
         this.gerarMes();
         this.monitorarData();
+
+        // Conecta ao Stream Server-Sent Events (SSE) para atualização instantânea entre TODOS os usuários
+        this.iniciarStreamTempoReal();
+
+        // Sincronização inicial e polling rápido de contingência
+        this.sincronizarComServidor();
+        setInterval(() => this.sincronizarComServidor(), 2500);
+        window.addEventListener("focus", () => this.sincronizarComServidor());
     },
 
     /* ======================================================
-       STORAGE (Compatível com sincronização / GitHub)
+       SINCRONIZAÇÃO EM TEMPO REAL & STORAGE
     ====================================================== */
+    iniciarStreamTempoReal() {
+        if (typeof EventSource === "undefined") return;
+
+        try {
+            if (this.evtSource) {
+                this.evtSource.close();
+            }
+
+            this.evtSource = new EventSource("/api/stream");
+
+            this.evtSource.onmessage = (event) => {
+                try {
+                    const dados = JSON.parse(event.data);
+                    if (dados && (dados.substituicoes || dados.ausencias)) {
+                        this.aplicarDadosServidor(dados);
+                        this.atualizarIndicadorConexao(true);
+                    }
+                } catch (err) {
+                    console.error("Erro ao processar stream:", err);
+                }
+            };
+
+            this.evtSource.onopen = () => {
+                this.atualizarIndicadorConexao(true);
+            };
+
+            this.evtSource.onerror = () => {
+                this.atualizarIndicadorConexao(false);
+                // Se cair ou falhar (ex: hospedado no GitHub estático sem backend), mantém polling
+            };
+        } catch (err) {
+            console.warn("Stream SSE não pôde ser iniciado:", err);
+        }
+    },
+
+    atualizarIndicadorConexao(conectado) {
+        const textEl = document.getElementById("liveSyncText");
+        const indicator = document.getElementById("liveSyncStatus");
+        if (textEl && indicator) {
+            if (conectado) {
+                textEl.textContent = "Ao vivo: Sincronizado para todos os colaboradores";
+                indicator.style.display = "inline-flex";
+            } else {
+                textEl.textContent = "Sincronização em nuvem";
+            }
+        }
+    },
+
+    aplicarDadosServidor(dados) {
+        const substServidor = dados.substituicoes || {};
+        const ausenciasServidor = dados.ausencias || [];
+
+        const mudou = (
+            JSON.stringify(this.substituicoes) !== JSON.stringify(substServidor) ||
+            JSON.stringify(Scheduler.ausencias) !== JSON.stringify(ausenciasServidor)
+        );
+
+        if (mudou) {
+            this.substituicoes = substServidor;
+            Scheduler.ausencias = ausenciasServidor;
+            localStorage.setItem(this.storageKey, JSON.stringify(this.substituicoes));
+            localStorage.setItem(this.storageAusenciasKey, JSON.stringify(Scheduler.ausencias));
+            this.gerarMes();
+            this.renderizarListaAusencias();
+        }
+    },
+
+    async sincronizarComServidor() {
+        try {
+            const res = await fetch("/api/escala");
+            if (res.ok) {
+                const dados = await res.json();
+                this.aplicarDadosServidor(dados);
+                this.atualizarIndicadorConexao(true);
+            }
+        } catch (err) {
+            // Em caso de offline, opera com o cache local
+        }
+    },
+
+    async salvarTudoNoServidor() {
+        const payload = {
+            substituicoes: this.substituicoes,
+            ausencias: Scheduler.ausencias
+        };
+
+        // Notifica abas locais imediatamente via BroadcastChannel
+        try {
+            this.canalBroadcast?.postMessage({
+                tipo: "atualizacao",
+                dados: payload
+            });
+        } catch (e) {}
+
+        try {
+            await fetch("/api/escala", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        } catch (err) {
+            console.error("Erro ao salvar no servidor:", err);
+        }
+    },
+
     carregarLocalStorage() {
         try {
             const dadosSubst = localStorage.getItem(this.storageKey);
@@ -494,6 +650,8 @@ const App = {
         try {
             localStorage.setItem(this.storageKey, JSON.stringify(this.substituicoes));
             localStorage.setItem(this.storageAusenciasKey, JSON.stringify(Scheduler.ausencias));
+            // Envia imediatamente para o servidor para que todos os colaboradores vejam
+            this.salvarTudoNoServidor();
             return true;
         } catch (erro) {
             console.error("Erro ao salvar LocalStorage:", erro);
