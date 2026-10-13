@@ -1,7 +1,7 @@
 /* ==========================================================
    CAF • PROGRAMAÇÃO INTELIGENTE
-   VERSÃO 2.1
-   JAVASCRIPT ORGANIZADO
+   JAVASCRIPT COMPLETO
+   COM SUBSTITUIÇÃO + LOCALSTORAGE
 ========================================================== */
 
 
@@ -30,14 +30,19 @@ const Holidays = {
         const f = Math.floor((b + 8) / 25);
         const g = Math.floor((b - f + 1) / 3);
 
-        const h = (19 * a + b - d - g + 15) % 30;
+        const h =
+            (19 * a + b - d - g + 15) % 30;
 
         const i = Math.floor(c / 4);
         const k = c % 4;
 
-        const l = (32 + 2 * e + 2 * i - h - k) % 7;
+        const l =
+            (32 + 2 * e + 2 * i - h - k) % 7;
 
-        const m = Math.floor((a + 11 * h + 22 * l) / 451);
+        const m =
+            Math.floor(
+                (a + 11 * h + 22 * l) / 451
+            );
 
         return new Date(
             ano,
@@ -48,7 +53,6 @@ const Holidays = {
         );
     },
 
-
     obter(ano) {
 
         const lista = {};
@@ -56,38 +60,40 @@ const Holidays = {
         const pascoa =
             this.calcularPascoa(ano);
 
+        const carnavalSeg =
+            new Date(pascoa);
 
-        /* Feriados móveis */
-
-        const carnavalSeg = new Date(pascoa);
         carnavalSeg.setDate(
             pascoa.getDate() - 48
         );
 
+        const carnavalTer =
+            new Date(pascoa);
 
-        const carnavalTer = new Date(pascoa);
         carnavalTer.setDate(
             pascoa.getDate() - 47
         );
 
+        const quartaCinzas =
+            new Date(pascoa);
 
-        const quartaCinzas = new Date(pascoa);
         quartaCinzas.setDate(
             pascoa.getDate() - 46
         );
 
+        const sextaSanta =
+            new Date(pascoa);
 
-        const sextaSanta = new Date(pascoa);
         sextaSanta.setDate(
             pascoa.getDate() - 2
         );
 
+        const corpusChristi =
+            new Date(pascoa);
 
-        const corpusChristi = new Date(pascoa);
         corpusChristi.setDate(
             pascoa.getDate() + 60
         );
-
 
         /* Feriados nacionais */
 
@@ -118,7 +124,6 @@ const Holidays = {
         lista[`${ano}-12-25`] =
             "Natal";
 
-
         /* Feriados móveis */
 
         lista[this.formatar(carnavalSeg)] =
@@ -136,12 +141,10 @@ const Holidays = {
         lista[this.formatar(corpusChristi)] =
             "Corpus Christi";
 
-
         /* Pernambuco */
 
         lista[`${ano}-03-06`] =
             "Revolução Pernambucana";
-
 
         /* Recife */
 
@@ -151,14 +154,12 @@ const Holidays = {
         lista[`${ano}-07-16`] =
             "Nossa Senhora do Carmo";
 
-
         return lista;
     }
 };
 
-
 /* ==========================================================
-   02. ESCALA / RODÍZIO
+   02. ESCALA ORIGINAL
 ========================================================== */
 
 const Scheduler = {
@@ -196,14 +197,12 @@ const Scheduler = {
             v360: "Duda",
             spot: "Adri",
             encerramento: "Adri"
-        },
+        }
 
     ],
 
-
     dataBase:
         new Date(2026, 4, 4),
-
 
     obterIndiceParaData(dataAlvo, ano) {
 
@@ -218,7 +217,6 @@ const Scheduler = {
         const feriadosDatas =
             Object.keys(feriados);
 
-
         while (data < dataAlvo) {
 
             const diaSemana =
@@ -231,28 +229,23 @@ const Scheduler = {
                     data.getDate()
                 ).padStart(2, "0")}`;
 
-
             const diaUtil =
                 diaSemana !== 0 &&
                 diaSemana !== 6 &&
                 !feriadosDatas.includes(iso);
 
-
             if (diaUtil) {
                 contador++;
             }
-
 
             data.setDate(
                 data.getDate() + 1
             );
         }
 
-
         return contador;
     }
 };
-
 
 /* ==========================================================
    03. APLICAÇÃO
@@ -277,9 +270,47 @@ const App = {
 
     ],
 
+    colaboradores: [
+        "Duda",
+        "Adri",
+        "Leto",
+        "Girlene"
+    ],
+
+    atividades: [
+
+        "email",
+        "retorno",
+        "fieldglass",
+        "fup",
+        "service",
+        "v360",
+        "spot",
+        "encerramento"
+    ],
+
+    nomesAtividades: {
+
+        email: "E-MAIL",
+        retorno: "RETORNO",
+        fieldglass: "FIELDGLASS",
+        fup: "FUP",
+        service: "SERVICE NOW",
+        v360: "V360",
+        spot: "SPOT MATERIAIS",
+        encerramento: "ENCERRAMENTO"
+    },
 
     /* ======================================================
-       TEMAS MENSAIS
+       LOCAL STORAGE
+    ====================================================== */
+
+    storageKey: "CAF_ESCALA_SUBSTITUICOES_V1",
+    substituicoes: {},
+    modalContexto: null,
+
+    /* ======================================================
+       TEMAS
     ====================================================== */
 
     temasMensais: [
@@ -442,22 +473,14 @@ const App = {
 
     ],
 
-
     /* ======================================================
-       04. INICIALIZAÇÃO
+       INICIALIZAÇÃO
     ====================================================== */
 
     init() {
 
-        const agora =
-            new Date();
-
-        const selectMes =
-            document.getElementById("mes");
-
-        const selectAno =
-            document.getElementById("ano");
-
+        const selectMes = document.getElementById("mes");
+        const selectAno = document.getElementById("ano");
 
         if (!selectMes || !selectAno) {
 
@@ -468,26 +491,22 @@ const App = {
             return;
         }
 
-
+        this.carregarLocalStorage();
         this.preencherMeses(selectMes);
-
         this.definirAnoAtual(selectAno);
 
-        selectMes.value =
-            agora.getMonth();
-
+        const agora = new Date();
+        selectMes.value = agora.getMonth();
 
         selectMes.addEventListener(
             "change",
             () => this.gerarMes()
         );
 
-
         selectAno.addEventListener(
             "change",
             () => this.gerarMes()
         );
-
 
         document
             .getElementById("btnTema")
@@ -496,14 +515,12 @@ const App = {
                 () => this.alternarTema()
             );
 
-
         document
             .getElementById("btnExcel")
             ?.addEventListener(
                 "click",
                 () => this.exportarExcel()
             );
-
 
         document
             .getElementById("btnPDF")
@@ -512,8 +529,18 @@ const App = {
                 () => this.exportarPDF()
             );
 
+        document
+            .getElementById("btnRestaurarMes")
+            ?.addEventListener(
+                "click",
+                () => this.restaurarMes()
+            );
+
+        this.configurarModal();
 
         this.atualizarAnoRodape();
+
+        this.carregarTemaSalvo();
 
         this.gerarMes();
 
@@ -522,7 +549,105 @@ const App = {
 
 
     /* ======================================================
-       05. PREENCHER MESES
+       LOCAL STORAGE
+    ====================================================== */
+
+    carregarLocalStorage() {
+
+        try {
+
+            const dados = localStorage.getItem(this.storageKey);
+
+            if (!dados) {
+
+                this.substituicoes = {};
+                return;
+            }
+
+            const parsed = JSON.parse(dados);
+            this.substituicoes = parsed &&
+                typeof parsed === "object"
+                    ? parsed
+                    : {};
+
+        }
+
+        catch (erro) {
+
+            console.error(
+                "Erro ao carregar localStorage:",
+                erro
+            );
+
+            this.substituicoes = {};
+        }
+    },
+
+
+    salvarLocalStorage() {
+
+        try {
+
+            localStorage.setItem(
+                this.storageKey,
+                JSON.stringify(
+                    this.substituicoes
+                )
+            );
+
+            return true;
+
+        }
+
+        catch (erro) {
+
+            console.error(
+                "Erro ao salvar localStorage:",
+                erro
+            );
+
+            this.mostrarToast(
+                "Não foi possível salvar a alteração."
+            );
+
+            return false;
+        }
+    },
+
+
+    chaveSubstituicao(
+        ano,
+        mes,
+        data,
+        atividade
+    ) {
+
+        return `${ano}-${String(mes + 1).padStart(2, "0")}-${String(data).padStart(2, "0")}_${atividade}`;
+    },
+
+
+    obterSubstituicao(
+        ano,
+        mes,
+        data,
+        atividade
+    ) {
+
+        const chave =
+            this.chaveSubstituicao(
+                ano,
+                mes,
+                data,
+                atividade
+            );
+
+
+        return this.substituicoes[chave] || null;
+    },
+
+
+    /* ======================================================
+       MESES
     ====================================================== */
 
     preencherMeses(select) {
@@ -540,13 +665,14 @@ const App = {
 
 
     /* ======================================================
-       06. DEFINIR ANO
+       ANO
     ====================================================== */
 
     definirAnoAtual(select) {
 
         const anoAtual =
             new Date().getFullYear();
+
 
         const existe =
             [...select.options]
@@ -557,13 +683,15 @@ const App = {
 
 
         if (existe) {
-            select.value = anoAtual;
+
+            select.value =
+                anoAtual;
         }
     },
 
 
     /* ======================================================
-       07. CLASSE DO RESPONSÁVEL
+       CLASSE DO NOME
     ====================================================== */
 
     classe(nome) {
@@ -579,7 +707,22 @@ const App = {
 
 
     /* ======================================================
-       08. APLICAR TEMA
+       ESCAPE HTML
+    ====================================================== */
+
+    escaparHTML(valor) {
+
+        return String(valor)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    },
+
+
+    /* ======================================================
+       TEMA
     ====================================================== */
 
     aplicarTemaMensal(mes) {
@@ -645,8 +788,6 @@ const App = {
         );
 
 
-        /* Abril */
-
         if (mes === 3) {
 
             root.style.setProperty(
@@ -656,9 +797,6 @@ const App = {
 
         }
 
-
-        /* Maio */
-
         else if (mes === 4) {
 
             root.style.setProperty(
@@ -667,9 +805,6 @@ const App = {
             );
 
         }
-
-
-        /* Demais meses */
 
         else {
 
@@ -690,7 +825,7 @@ const App = {
 
 
     /* ======================================================
-       09. GERAR MÊS
+       GERAR MÊS
     ====================================================== */
 
     gerarMes() {
@@ -725,7 +860,6 @@ const App = {
         const feriados =
             Holidays.obter(ano);
 
-
         const feriadosDatas =
             Object.keys(feriados);
 
@@ -739,19 +873,14 @@ const App = {
 
 
         let diasUteis = 0;
-        let totalFeriados = 0;
 
+        let totalFeriados = 0;
 
         const hoje =
             new Date();
 
-
         let emailHoje = "-";
 
-
-        /* ==================================================
-           PERCORRE OS DIAS
-        ================================================== */
 
         for (
             let dia = 1;
@@ -771,12 +900,11 @@ const App = {
                 data.getDay();
 
 
-            /* Ignora sábado e domingo */
-
             if (
                 diaSemana === 0 ||
                 diaSemana === 6
             ) {
+
                 continue;
             }
 
@@ -789,10 +917,6 @@ const App = {
                 document.createElement("tr");
 
 
-            /* =================================================
-               DIA ATUAL
-            ================================================= */
-
             const ehHoje =
                 data.getDate() === hoje.getDate() &&
                 data.getMonth() === hoje.getMonth() &&
@@ -800,6 +924,7 @@ const App = {
 
 
             if (ehHoje) {
+
                 tr.classList.add("hoje");
             }
 
@@ -825,7 +950,7 @@ const App = {
 
                     <td colspan="8">
                         FERIADO:
-                        ${feriados[iso]}
+                        ${this.escaparHTML(feriados[iso])}
                     </td>
 
                 `;
@@ -848,8 +973,63 @@ const App = {
 
                 const responsavel =
                     Scheduler.rodizio[
-                        indice % Scheduler.rodizio.length
+                        indice %
+                        Scheduler.rodizio.length
                     ];
+
+
+                const valores = {
+
+                    email:
+                        responsavel.email,
+
+                    retorno:
+                        responsavel.retorno,
+
+                    fieldglass:
+                        responsavel.fieldglass,
+
+                    fup:
+                        responsavel.fup,
+
+                    service:
+                        responsavel.service,
+
+                    v360:
+                        responsavel.v360,
+
+                    spot:
+                        responsavel.spot,
+
+                    encerramento:
+                        responsavel.encerramento
+                };
+
+
+                /*
+                 * Aplica as substituições
+                 * salvas no localStorage.
+                 */
+
+                this.atividades.forEach(
+                    atividade => {
+
+                        const substituto =
+                            this.obterSubstituicao(
+                                ano,
+                                mes,
+                                dia,
+                                atividade
+                            );
+
+
+                        if (substituto) {
+
+                            valores[atividade] =
+                                substituto;
+                        }
+                    }
+                );
 
 
                 tr.innerHTML = `
@@ -858,37 +1038,69 @@ const App = {
                         ${data.toLocaleDateString("pt-BR")}
                     </td>
 
-                    <td class="${this.classe(responsavel.email)}">
-                        ${responsavel.email}
-                    </td>
+                    ${this.criarCelulaColaborador(
+                        ano,
+                        mes,
+                        dia,
+                        "email",
+                        valores.email
+                    )}
 
-                    <td class="${this.classe(responsavel.retorno)}">
-                        ${responsavel.retorno}
-                    </td>
+                    ${this.criarCelulaColaborador(
+                        ano,
+                        mes,
+                        dia,
+                        "retorno",
+                        valores.retorno
+                    )}
 
-                    <td class="${this.classe(responsavel.fieldglass)}">
-                        ${responsavel.fieldglass}
-                    </td>
+                    ${this.criarCelulaColaborador(
+                        ano,
+                        mes,
+                        dia,
+                        "fieldglass",
+                        valores.fieldglass
+                    )}
 
-                    <td class="${this.classe(responsavel.fup)}">
-                        ${responsavel.fup}
-                    </td>
+                    ${this.criarCelulaColaborador(
+                        ano,
+                        mes,
+                        dia,
+                        "fup",
+                        valores.fup
+                    )}
 
-                    <td class="${this.classe(responsavel.service)}">
-                        ${responsavel.service}
-                    </td>
+                    ${this.criarCelulaColaborador(
+                        ano,
+                        mes,
+                        dia,
+                        "service",
+                        valores.service
+                    )}
 
-                    <td class="${this.classe(responsavel.v360)}">
-                        ${responsavel.v360}
-                    </td>
+                    ${this.criarCelulaColaborador(
+                        ano,
+                        mes,
+                        dia,
+                        "v360",
+                        valores.v360
+                    )}
 
-                    <td class="${this.classe(responsavel.spot)}">
-                        ${responsavel.spot}
-                    </td>
+                    ${this.criarCelulaColaborador(
+                        ano,
+                        mes,
+                        dia,
+                        "spot",
+                        valores.spot
+                    )}
 
-                    <td class="${this.classe(responsavel.encerramento)}">
-                        ${responsavel.encerramento}
-                    </td>
+                    ${this.criarCelulaColaborador(
+                        ano,
+                        mes,
+                        dia,
+                        "encerramento",
+                        valores.encerramento
+                    )}
 
                 `;
 
@@ -897,8 +1109,9 @@ const App = {
 
 
                 if (ehHoje) {
+
                     emailHoje =
-                        responsavel.email;
+                        valores.email;
                 }
             }
 
@@ -922,7 +1135,37 @@ const App = {
 
 
     /* ======================================================
-       10. ATUALIZAR INDICADORES
+       CRIAR CÉLULA CLICÁVEL
+    ====================================================== */
+
+    criarCelulaColaborador(
+        ano,
+        mes,
+        dia,
+        atividade,
+        nome
+    ) {
+
+        return `
+
+            <td
+                class="colaborador ${this.classe(nome)}"
+                data-ano="${ano}"
+                data-mes="${mes}"
+                data-dia="${dia}"
+                data-atividade="${atividade}"
+                title="Clique para alterar">
+
+                ${this.escaparHTML(nome)}
+
+            </td>
+
+        `;
+    },
+
+
+    /* ======================================================
+       INDICADORES
     ====================================================== */
 
     atualizarIndicadores(
@@ -932,28 +1175,38 @@ const App = {
     ) {
 
         const diasElemento =
-            document.getElementById("diasMes");
+            document.getElementById(
+                "diasMes"
+            );
 
 
         const feriadosElemento =
-            document.getElementById("feriadosMes");
+            document.getElementById(
+                "feriadosMes"
+            );
 
 
         const labelFeriado =
-            document.getElementById("labelFeriado");
+            document.getElementById(
+                "labelFeriado"
+            );
 
 
         const emailElemento =
-            document.getElementById("ultimoEmail");
+            document.getElementById(
+                "ultimoEmail"
+            );
 
 
         if (diasElemento) {
+
             diasElemento.textContent =
                 diasUteis;
         }
 
 
         if (feriadosElemento) {
+
             feriadosElemento.textContent =
                 feriados;
         }
@@ -977,10 +1230,13 @@ const App = {
 
 
     /* ======================================================
-       11. SUBTÍTULO
+       SUBTÍTULO
     ====================================================== */
 
-    atualizarSubtitulo(mes, ano) {
+    atualizarSubtitulo(
+        mes,
+        ano
+    ) {
 
         const elemento =
             document.getElementById(
@@ -997,7 +1253,523 @@ const App = {
 
 
     /* ======================================================
-       12. TEMA ESCURO
+       MODAL
+    ====================================================== */
+
+    configurarModal() {
+
+        const tbody =
+            document.getElementById(
+                "tbodyProgramacao"
+            );
+
+
+        tbody?.addEventListener(
+            "click",
+            event => {
+
+                const celula =
+                    event.target.closest(
+                        "td.colaborador"
+                    );
+
+
+                if (!celula) return;
+
+
+                const ano =
+                    Number(
+                        celula.dataset.ano
+                    );
+
+
+                const mes =
+                    Number(
+                        celula.dataset.mes
+                    );
+
+
+                const dia =
+                    Number(
+                        celula.dataset.dia
+                    );
+
+
+                const atividade =
+                    celula.dataset.atividade;
+
+
+                const nomeAtual =
+                    celula.textContent.trim();
+
+
+                this.abrirModal(
+                    ano,
+                    mes,
+                    dia,
+                    atividade,
+                    nomeAtual
+                );
+            }
+        );
+
+
+        document
+            .getElementById("btnFecharModal")
+            ?.addEventListener(
+                "click",
+                () => this.fecharModal()
+            );
+
+
+        document
+            .getElementById("btnCancelarModal")
+            ?.addEventListener(
+                "click",
+                () => this.fecharModal()
+            );
+
+
+        document
+            .getElementById("btnSalvarSubstituicao")
+            ?.addEventListener(
+                "click",
+                () => this.salvarSubstituicao()
+            );
+
+
+        document
+            .getElementById("btnRestaurarCelula")
+            ?.addEventListener(
+                "click",
+                () => this.restaurarCelula()
+            );
+
+
+        document
+            .getElementById("modalSubstituicao")
+            ?.addEventListener(
+                "click",
+                event => {
+
+                    if (
+                        event.target.id ===
+                        "modalSubstituicao"
+                    ) {
+
+                        this.fecharModal();
+                    }
+                }
+            );
+
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    this.fecharModal();
+                }
+            }
+        );
+    },
+
+
+    /* ======================================================
+       ABRIR MODAL
+    ====================================================== */
+
+    abrirModal(
+        ano,
+        mes,
+        dia,
+        atividade,
+        nomeAtual
+    ) {
+
+        this.modalContexto = {
+
+            ano,
+            mes,
+            dia,
+            atividade,
+            nomeAtual
+        };
+
+
+        const data =
+            new Date(
+                ano,
+                mes,
+                dia
+            );
+
+
+        document.getElementById(
+            "modalData"
+        ).textContent =
+            data.toLocaleDateString(
+                "pt-BR"
+            );
+
+
+        document.getElementById(
+            "modalAtividade"
+        ).textContent =
+            this.nomesAtividades[
+                atividade
+            ] || atividade;
+
+
+        document.getElementById(
+            "modalColaboradorAtual"
+        ).textContent =
+            nomeAtual;
+
+
+        const select =
+            document.getElementById(
+                "selectSubstituto"
+            );
+
+
+        const substituicao =
+            this.obterSubstituicao(
+                ano,
+                mes,
+                dia,
+                atividade
+            );
+
+
+        select.innerHTML = [
+
+            `<option value="">
+                Selecione um colaborador
+            </option>`,
+
+            ...this.colaboradores.map(
+                nome => `
+
+                    <option
+                        value="${this.escaparHTML(nome)}"
+                        ${(
+                            substituicao === nome
+                        ) ? "selected" : ""}>
+
+                        ${this.escaparHTML(nome)}
+
+                    </option>
+
+                `
+            )
+
+        ].join("");
+
+
+        const modal =
+            document.getElementById(
+                "modalSubstituicao"
+            );
+
+
+        modal.classList.add("active");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+
+        setTimeout(
+            () => select.focus(),
+            100
+        );
+    },
+
+
+    /* ======================================================
+       FECHAR MODAL
+    ====================================================== */
+
+    fecharModal() {
+
+        const modal =
+            document.getElementById(
+                "modalSubstituicao"
+            );
+
+
+        if (!modal) return;
+
+
+        modal.classList.remove(
+            "active"
+        );
+
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+
+        this.modalContexto = null;
+    },
+
+
+    /* ======================================================
+       SALVAR SUBSTITUIÇÃO
+    ====================================================== */
+
+    salvarSubstituicao() {
+
+        if (!this.modalContexto) return;
+
+
+        const select =
+            document.getElementById(
+                "selectSubstituto"
+            );
+
+
+        const novoNome =
+            select.value;
+
+
+        if (!novoNome) {
+
+            this.mostrarToast(
+                "Selecione o novo colaborador."
+            );
+
+            return;
+        }
+
+
+        const {
+            ano,
+            mes,
+            dia,
+            atividade
+        } = this.modalContexto;
+
+
+        const chave =
+            this.chaveSubstituicao(
+                ano,
+                mes,
+                dia,
+                atividade
+            );
+
+
+        this.substituicoes[chave] =
+            novoNome;
+
+
+        if (
+            !this.salvarLocalStorage()
+        ) {
+
+            return;
+        }
+
+
+        this.fecharModal();
+
+        this.gerarMes();
+
+
+        this.mostrarToast(
+            `${novoNome} foi definido na escala.`
+        );
+    },
+
+
+    /* ======================================================
+       RESTAURAR CÉLULA
+    ====================================================== */
+
+    restaurarCelula() {
+
+        if (!this.modalContexto) return;
+
+
+        const {
+            ano,
+            mes,
+            dia,
+            atividade
+        } = this.modalContexto;
+
+
+        const chave =
+            this.chaveSubstituicao(
+                ano,
+                mes,
+                dia,
+                atividade
+            );
+
+
+        if (
+            !this.substituicoes[chave]
+        ) {
+
+            this.mostrarToast(
+                "Essa célula já está na escala original."
+            );
+
+            return;
+        }
+
+
+        delete this.substituicoes[chave];
+
+
+        this.salvarLocalStorage();
+
+        this.fecharModal();
+
+        this.gerarMes();
+
+
+        this.mostrarToast(
+            "Escala original restaurada."
+        );
+    },
+
+
+    /* ======================================================
+       RESTAURAR MÊS
+    ====================================================== */
+
+    restaurarMes() {
+
+        const mes =
+            Number(
+                document.getElementById(
+                    "mes"
+                ).value
+            );
+
+
+        const ano =
+            Number(
+                document.getElementById(
+                    "ano"
+                ).value
+            );
+
+
+        const prefixo =
+            `${ano}-${String(mes + 1).padStart(2, "0")}-`;
+
+
+        const chaves =
+            Object.keys(
+                this.substituicoes
+            );
+
+
+        const chavesDoMes =
+            chaves.filter(
+                chave =>
+                    chave.startsWith(prefixo)
+            );
+
+
+        if (
+            chavesDoMes.length === 0
+        ) {
+
+            this.mostrarToast(
+                "Não existem alterações neste mês."
+            );
+
+            return;
+        }
+
+
+        const confirmar =
+            confirm(
+                `Restaurar toda a escala de ${this.meses[mes]} de ${ano}?\n\nTodas as substituições deste mês serão removidas.`
+            );
+
+
+        if (!confirmar) return;
+
+
+        chavesDoMes.forEach(
+            chave => {
+
+                delete this.substituicoes[
+                    chave
+                ];
+            }
+        );
+
+
+        this.salvarLocalStorage();
+
+        this.gerarMes();
+
+
+        this.mostrarToast(
+            "Escala original do mês restaurada."
+        );
+    },
+
+
+    /* ======================================================
+       TOAST
+    ====================================================== */
+
+    mostrarToast(mensagem) {
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
+
+
+        if (!toast) return;
+
+
+        toast.textContent =
+            mensagem;
+
+
+        toast.classList.add(
+            "show"
+        );
+
+
+        clearTimeout(
+            this.toastTimer
+        );
+
+
+        this.toastTimer =
+            setTimeout(
+                () => {
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                2800
+            );
+    },
+
+
+    /* ======================================================
+       TEMA ESCURO
     ====================================================== */
 
     alternarTema() {
@@ -1006,6 +1778,26 @@ const App = {
             "dark"
         );
 
+
+        const modoEscuro =
+            document.body.classList.contains(
+                "dark"
+            );
+
+
+        localStorage.setItem(
+            "CAF_TEMA",
+            modoEscuro
+                ? "dark"
+                : "light"
+        );
+
+
+        this.atualizarBotaoTema();
+    },
+
+
+    atualizarBotaoTema() {
 
         const botao =
             document.getElementById(
@@ -1029,8 +1821,28 @@ const App = {
     },
 
 
+    carregarTemaSalvo() {
+
+        const tema =
+            localStorage.getItem(
+                "CAF_TEMA"
+            );
+
+
+        if (tema === "dark") {
+
+            document.body.classList.add(
+                "dark"
+            );
+        }
+
+
+        this.atualizarBotaoTema();
+    },
+
+
     /* ======================================================
-       13. EXPORTAR EXCEL
+       EXCEL
     ====================================================== */
 
     exportarExcel() {
@@ -1055,7 +1867,11 @@ const App = {
 
         const workbook =
             XLSX.utils.table_to_book(
-                tabela
+                tabela,
+                {
+                    sheet:
+                        "Programação"
+                }
             );
 
 
@@ -1074,14 +1890,17 @@ const App = {
 
 
         XLSX.writeFile(
+
             workbook,
+
             `Escala_CAF_${this.meses[mes]}_${ano}.xlsx`
+
         );
     },
 
 
     /* ======================================================
-       14. EXPORTAR PDF
+       PDF
     ====================================================== */
 
     exportarPDF() {
@@ -1105,9 +1924,15 @@ const App = {
 
         const pdf =
             new jsPDF({
-                orientation: "landscape",
-                unit: "mm",
-                format: "a4"
+
+                orientation:
+                    "landscape",
+
+                unit:
+                    "mm",
+
+                format:
+                    "a4"
             });
 
 
@@ -1127,10 +1952,21 @@ const App = {
 
         pdf.setFontSize(14);
 
+
         pdf.text(
             `Escala CAF - ${this.meses[mes]} ${ano}`,
             14,
             10
+        );
+
+
+        pdf.setFontSize(8);
+
+
+        pdf.text(
+            "Programação operacional",
+            14,
+            15
         );
 
 
@@ -1140,7 +1976,7 @@ const App = {
                 "#tabelaProgramacao",
 
             startY:
-                15,
+                20,
 
             theme:
                 "grid",
@@ -1171,17 +2007,20 @@ const App = {
                 fontStyle:
                     "bold"
             }
+
         });
 
 
         pdf.save(
+
             `Escala_CAF_${this.meses[mes]}_${ano}.pdf`
+
         );
     },
 
 
     /* ======================================================
-       15. ANO DO RODAPÉ
+       ANO RODAPÉ
     ====================================================== */
 
     atualizarAnoRodape() {
@@ -1195,13 +2034,13 @@ const App = {
         if (elemento) {
 
             elemento.textContent =
-                new Date().getFullYear();
+                ` ${new Date().getFullYear()}`;
         }
     },
 
 
     /* ======================================================
-       16. MONITORAMENTO AUTOMÁTICO
+       MONITORAMENTO
     ====================================================== */
 
     monitorarMes() {
@@ -1212,47 +2051,57 @@ const App = {
                 new Date();
 
 
+            const selectMes =
+                document.getElementById(
+                    "mes"
+                );
+
+
+            const selectAno =
+                document.getElementById(
+                    "ano"
+                );
+
+
+            if (
+                !selectMes ||
+                !selectAno
+            ) {
+
+                return;
+            }
+
+
             const mesSelecionado =
                 Number(
-                    document.getElementById(
-                        "mes"
-                    )?.value
+                    selectMes.value
                 );
 
 
             const anoSelecionado =
                 Number(
-                    document.getElementById(
-                        "ano"
-                    )?.value
+                    selectAno.value
                 );
 
 
             if (
-                agora.getMonth() !== mesSelecionado &&
-                agora.getFullYear() === anoSelecionado
+                agora.getMonth() !==
+                    mesSelecionado &&
+                agora.getFullYear() ===
+                    anoSelecionado
             ) {
 
-                const selectMes =
-                    document.getElementById(
-                        "mes"
-                    );
+                selectMes.value =
+                    agora.getMonth();
 
 
-                if (selectMes) {
-
-                    selectMes.value =
-                        agora.getMonth();
-
-                    this.gerarMes();
-                }
+                this.gerarMes();
             }
 
 
             /*
-             * Regenera a programação quando
-             * muda o dia, garantindo que
-             * "E-MAIL DE HOJE" seja atualizado.
+             * Atualiza a escala à meia-noite
+             * para atualizar o E-MAIL DE HOJE.
              */
 
             if (
@@ -1265,11 +2114,12 @@ const App = {
 
         }, 60000);
     }
+
 };
 
 
 /* ==========================================================
-   17. INICIALIZAÇÃO DO SISTEMA
+   INICIALIZAÇÃO
 ========================================================== */
 
 document.addEventListener(
